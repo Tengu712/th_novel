@@ -5,11 +5,11 @@ namespace Skydogs.SkdApp.Scene;
 
 class TitleScene : IScene
 {
-    private GameManager _gmanager = null;
+    private IRefGameManager _gameManager = null;
 
-    public TitleScene(GameManager gmanager)
+    public TitleScene(IRefGameManager gameManager)
     {
-        this._gmanager = gmanager;
+        this._gameManager = gameManager;
     }
 
     public void Init()

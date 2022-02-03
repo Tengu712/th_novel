@@ -1,8 +1,9 @@
+using System;
 using Skydogs.SkdApp.Scene;
 
 namespace Skydogs.SkdApp.Manager;
 
-class GameManager
+class GameManager : ICtrGameManager, IRefGameManager
 {
     private IScene _scene = null;
 
@@ -15,5 +16,10 @@ class GameManager
     public void Update()
     {
         _scene.Update();
+    }
+
+    public void ChangeScene()
+    {
+        Console.WriteLine("Change scene");
     }
 }

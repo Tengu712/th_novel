@@ -5,15 +5,15 @@ using System.Runtime.InteropServices;
 
 namespace Skydogs.SkdApp;
 
-class MainClass
+class Program
 {
     [STAThread]
     public static void Main(string[] args)
     {
-        MainForm mainform = new MainForm();
-        mainform.Show();
         if (!CreateVSyncTimer())
             return;
+        MainForm mainform = new MainForm();
+        mainform.Show();
         while (mainform.Created)
         {
             Application.DoEvents();
