@@ -1,12 +1,13 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Skydogs.SkdApp.Manager;
 
 namespace Skydogs.SkdApp;
 
 class MainForm : Form
 {
-    private Game _game = null;
+    private ICtrManagers _managers = null;
 
     public MainForm()
     {
@@ -18,18 +19,18 @@ class MainForm : Form
         this.SetStyle(ControlStyles.DoubleBuffer, true);
         this.SetStyle(ControlStyles.UserPaint, true);
         this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-        this._game = new Game();
+        _managers = new Managers();
     }
 
     public void UpdateForm()
     {
-        _game.Update();
+        _managers.GetCtrSceneManager().Update();
         Refresh();
     }
 
     protected override void OnPaint(PaintEventArgs e)
     {
         base.OnPaint(e);
-        _game.Draw(e.Graphics);
+        _managers.GetCtrGraphicsManager().Draw(e.Graphics);
 	}
 }

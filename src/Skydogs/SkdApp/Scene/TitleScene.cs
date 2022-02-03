@@ -1,24 +1,24 @@
 using System;
+using Skydogs.SkdApp.GraphicsObject;
 using Skydogs.SkdApp.Manager;
 
 namespace Skydogs.SkdApp.Scene;
 
 class TitleScene : IScene
 {
-    private IRefGameManager _gameManager = null;
+    private IRefManagers _managers = null;
 
-    public TitleScene(IRefGameManager gameManager)
+    public TitleScene(IRefManagers managers)
     {
-        this._gameManager = gameManager;
+        _managers = managers;
     }
 
     public void Init()
     {
-        Console.WriteLine("Hello");
     }
 
     public void Update()
     {
-        Console.WriteLine("update title scene.");
+        _managers.GetRefGraphicsManager().AddGraphicsObject(new ImageObject("reimu", 0.0f, 0.0f, 1280.0f, 1280.0f));
     }
 }
