@@ -9,21 +9,25 @@ class Program
     [STAThread]
     public static void Main(string[] args)
     {
-        if (!CreateVSyncTimer())
-            return;
         MainForm mainform = new MainForm();
+        if (!InitializeDirectX((int)mainform.Handle, 1280, 720))
+            return;
         mainform.Show();
         while (mainform.Created)
         {
             Application.DoEvents();
-            mainform.UpdateForm();
-            WaitVsync();
+            ClearSetBackBuffer(0.0f, 0.0f, 0.0f);
+            //mainform.UpdateForm();
+            Present();
         }
     }
 
-    [DllImport("vsynctimer.dll", EntryPoint = "CreateVSyncTimer")]
-    private static extern bool CreateVSyncTimer();
+    [DllImport("directx.dll", EntryPoint = "InitializeDirectX")]
+    private static extern bool InitializeDirectX(int h_wnd, uint width, uint height);
 
-    [DllImport("vsynctimer.dll", EntryPoint = "WaitVsync")]
-    private static extern void WaitVsync();
+    [DllImport("directx.dll", EntryPoint = "ClearSetBackBuffer")]
+    private static extern void ClearSetBackBuffer(float r, float g, float b);
+
+    [DllImport("directx.dll", EntryPoint = "Present")]
+    private static extern void Present();
 }
