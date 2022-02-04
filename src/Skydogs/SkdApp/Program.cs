@@ -10,14 +10,25 @@ class Program
     public static void Main(string[] args)
     {
         MainForm mainform = new MainForm();
-        if (!InitializeDirectX((int)mainform.Handle, 1280, 720))
+        try
+        {
+            if (!InitializeDirectX((int)mainform.Handle, 1280, 720))
+            {
+                MessageBox.Show("Failed to initialize DirectX.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+        }
+        catch (DllNotFoundException e)
+        {
+            MessageBox.Show(e.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return;
+        }
         mainform.Show();
         while (mainform.Created)
         {
             Application.DoEvents();
             ClearSetBackBuffer(0.0f, 0.0f, 0.0f);
-            //mainform.UpdateForm();
+            mainform.UpdateForm();
             Present();
         }
     }

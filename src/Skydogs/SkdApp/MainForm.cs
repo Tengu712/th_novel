@@ -1,4 +1,3 @@
-using System;
 using System.Drawing;
 using System.Windows.Forms;
 using Skydogs.SkdApp.Manager;
@@ -24,13 +23,7 @@ class MainForm : Form
 
     public void UpdateForm()
     {
-        _managers.GetCtrSceneManager().Update();
-        Refresh();
+        _managers.FpsManager.Measure();
+        //_managers.SceneManager.Update();
     }
-
-    protected override void OnPaint(PaintEventArgs e)
-    {
-        base.OnPaint(e);
-        _managers.GetCtrGraphicsManager().Draw(e.Graphics);
-	}
 }

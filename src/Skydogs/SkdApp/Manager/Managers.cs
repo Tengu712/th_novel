@@ -2,30 +2,34 @@ namespace Skydogs.SkdApp.Manager;
 
 interface ICtrManagers
 {
-    ICtrGraphicsManager GetCtrGraphicsManager();
-    ICtrSceneManager GetCtrSceneManager();
+    ICtrFpsManager FpsManager { get; }
+    ICtrGraphicsManager GraphicsManager { get; }
+    ICtrSceneManager SceneManager { get; }
 }
 
 interface IRefManagers
 {
-    IRefGraphicsManager GetRefGraphicsManager();
-    IRefSceneManager GetRefSceneManager();
+    IRefGraphicsManager GraphicsManager { get; }
+    IRefSceneManager SceneManager { get; }
 }
 
 class Managers : ICtrManagers, IRefManagers
 {
-    private GraphicsManager _graphicsManager = null;
-    private SceneManager _sceneManager = null;
+    private FpsManager _fpsManager;
+    private GraphicsManager _graphicsManager;
+    private SceneManager _sceneManager;
 
     public Managers()
     {
-        this._sceneManager = new SceneManager(this);
-        this._graphicsManager = new GraphicsManager();
+        _fpsManager = new FpsManager(this);
+        _graphicsManager = new GraphicsManager();
+        _sceneManager = new SceneManager(this);
     }
 
-    public ICtrGraphicsManager GetCtrGraphicsManager() => _graphicsManager;
-    public ICtrSceneManager GetCtrSceneManager() => _sceneManager;
+    ICtrFpsManager ICtrManagers.FpsManager { get { return _fpsManager; } }
+    ICtrGraphicsManager ICtrManagers.GraphicsManager { get { return _graphicsManager; } }
+    ICtrSceneManager ICtrManagers.SceneManager { get { return _sceneManager; } }
 
-    public IRefGraphicsManager GetRefGraphicsManager() => _graphicsManager;
-    public IRefSceneManager GetRefSceneManager() => _sceneManager;
+    IRefGraphicsManager IRefManagers.GraphicsManager { get { return _graphicsManager; } }
+    IRefSceneManager IRefManagers.SceneManager { get { return _sceneManager; } }
 }
