@@ -60,12 +60,24 @@ class ImageObject : IImageObject
         IsCenter = iscenter;
     }
 
+    public ImageObject(string imageName, float posx, float posy, float width, float height,
+        float r, float g, float b, float a, bool iscenter) : this(imageName, posx, posy, width, height, iscenter)
+    {
+        Red = r;
+        Green = g;
+        Blue = b;
+        Alpha = a;
+    }
+
     void IGraphicsObject.Draw()
     {
+        float pos_x = PosX;
+        float pos_y = PosY;
         if (IsCenter)
-            DirectX.DrawImageWithKey(ImageName, PosX + Width / 2.0f, PosY + Height / 2.0f, Width, Height,
-                Deg, Red, Green, Blue, Alpha);
-        else
-            DirectX.DrawImageWithKey(ImageName, PosX, PosY, Width, Height, Deg, Red, Green, Blue, Alpha);
+        {
+            pos_x -= Width / 2.0f;
+            pos_y -= Height / 2.0f;
+        }
+        DirectX.DrawImageWithKey(ImageName, pos_x, pos_y, Width, Height, Deg, Red, Green, Blue, Alpha);
     }
 }
