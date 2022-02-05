@@ -5,7 +5,6 @@ cbuffer mats : register (b0) {
     float4x4 mat_view;
     float4x4 mat_proj;
     float4 vec_color;
-    float4 vec_light;
     float4 params;
 }
 
@@ -32,11 +31,7 @@ VS_OUT vs_main(VS_IN input) {
     output.pos = mul(output.pos, mat_view);
     output.pos = mul(output.pos, mat_proj);
 
-    float4 nor = mul(input.nor, mat_rot);
-    float3 norRes = normalize(nor.xyz);
-    float4 col = input.col * vec_color;
-    output.col = float4(col.xyz * (dot(-norRes, vec_light.xyz) * 0.5 + 0.5), col.w);
-
+    output.col = input.col;
     output.tex = input.tex;
     output.prm = params;
 

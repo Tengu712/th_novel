@@ -5,27 +5,59 @@ namespace Skydogs.SkdApp.GraphicsObject;
 
 interface IStringObject : IGraphicsObject
 {
+    string String { get; set; }
     string FontName { get; set; }
     string BrushName { get; set; }
 }
 
 class StringObject : IStringObject
 {
-    private readonly string _str = null;
-
     public float PosX { get; set; } = 0.0f;
     public float PosY { get; set; } = 0.0f;
-    public string FontName { get; set; } = null;
-    public string BrushName { get; set; } = null;
+
+    private string _string = "";
+    public string String
+    {
+        get { return _string; }
+        set { _string = value == null ? "" : value; }
+    }
+    private string _fontName = "Logue";
+    public string FontName
+    {
+        get { return _fontName; }
+        set { _fontName = value == null ? "Logue" : value; }
+    }
+    private string _brushName = "White";
+    public string BrushName
+    {
+        get { return _brushName; }
+        set { _brushName = value == null ? "White" : value; }
+    }
 
     public StringObject(string str)
     {
-        this._str = str;
+        String = str;
     }
 
-    public void Draw(IRefGraphicsManager graphicsManager, Graphics g)
+    public StringObject(string str, float posx, float posy) : this(str)
     {
-        if (_str == null)
-            return;
+        PosX = posx;
+        PosY = posy;
+    }
+
+    public StringObject(string str, string fontName, string brushName) : this(str)
+    {
+        FontName = fontName;
+        BrushName = brushName;
+    }
+
+    public StringObject(string str, string fontName, string brushName, float posx, float posy) : this(str, posx, posy)
+    {
+        FontName = fontName;
+        BrushName = brushName;
+    }
+
+    void IGraphicsObject.Draw()
+    {
     }
 }

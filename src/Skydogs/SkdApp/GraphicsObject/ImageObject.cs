@@ -8,16 +8,32 @@ interface IImageObject : IGraphicsObject
     string ImageName { get; set; }
     float Width { get; set; }
     float Height { get; set; }
+    float Deg { get; set; }
+    float Red { get; set; }
+    float Green { get; set; }
+    float Blue { get; set; }
+    float Alpha { get; set; }
     bool IsCenter { get; set; }
 }
 
 class ImageObject : IImageObject
 {
-    public string ImageName { get; set; } = null;
     public float PosX { get; set; } = 0.0f;
     public float PosY { get; set; } = 0.0f;
+
+    private string _imageName = "";
+    public string ImageName
+    {
+        get { return _imageName; }
+        set { _imageName = value == null ? "" : value; }
+    }
     public float Width { get; set; } = 0.0f;
     public float Height { get; set; } = 0.0f;
+    public float Deg { get; set; } = 0.0f;
+    public float Red { get; set; } = 1.0f;
+    public float Green { get; set; } = 1.0f;
+    public float Blue { get; set; } = 1.0f;
+    public float Alpha { get; set; } = 1.0f;
     public bool IsCenter { get; set; } = false;
 
     public ImageObject(string imageName)
@@ -44,15 +60,12 @@ class ImageObject : IImageObject
         IsCenter = iscenter;
     }
 
-    public void Draw(IRefGraphicsManager graphicsManager, Graphics g)
+    void IGraphicsObject.Draw()
     {
-        if (ImageName == null)
-            return;
-        if (!graphicsManager.Images.ContainsKey(ImageName))
-            return;
         if (IsCenter)
-            g.DrawImage(graphicsManager.Images[ImageName], PosX + Width / 2.0f, PosY + Height / 2.0f, Width, Height);
+            DirectX.DrawImageWithKey(ImageName, PosX + Width / 2.0f, PosY + Height / 2.0f, Width, Height,
+                Deg, Red, Green, Blue, Alpha);
         else
-            g.DrawImage(graphicsManager.Images[ImageName], PosX, PosY, Width, Height);
+            DirectX.DrawImageWithKey(ImageName, PosX, PosY, Width, Height, Deg, Red, Green, Blue, Alpha);
     }
 }

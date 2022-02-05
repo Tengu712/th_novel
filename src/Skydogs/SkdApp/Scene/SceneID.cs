@@ -1,6 +1,6 @@
 namespace Skydogs.SkdApp.Scene;
 
-interface IScene
+enum SceneID
 {
-    void Update();
+    Load, Title,
 }

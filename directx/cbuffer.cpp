@@ -33,10 +33,6 @@ void SetVectorColor(float col_r, float col_g, float col_b, float col_a) {
     DirectX::XMStoreFloat4(&g_cbuffer.vec_color, DirectX::XMVectorSet(col_r, col_g, col_b, col_a));
 }
 
-void SetVectorLight(float x, float y, float z, float w) {
-    DirectX::XMStoreFloat4(&g_cbuffer.vec_light, DirectX::XMVectorSet(x, y, z, w));
-}
-
 void SetVectorParams(float x, float y, float z, float w) {
     DirectX::XMStoreFloat4(&g_cbuffer.params, DirectX::XMVectorSet(x, y, z, w));
 }

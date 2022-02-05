@@ -6,7 +6,7 @@ namespace Skydogs.SkdApp;
 
 class MainForm : Form
 {
-    private ICtrManagers _managers = null;
+    private readonly ICtrManagers _managers;
 
     public MainForm()
     {
@@ -23,7 +23,8 @@ class MainForm : Form
 
     public void UpdateForm()
     {
+        _managers.SceneManager.Update();
         _managers.FpsManager.Measure();
-        //_managers.SceneManager.Update();
+        _managers.GraphicsManager.Draw();
     }
 }

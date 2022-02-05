@@ -8,5 +8,5 @@ interface IGraphicsObject
     float PosX { get; set; }
     float PosY { get; set; }
     
-    void Draw(IRefGraphicsManager graphicsManager, Graphics g);
+    void Draw();
 }
