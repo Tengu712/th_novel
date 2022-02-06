@@ -1,8 +1,3 @@
-using System;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Resources;
-using System.Runtime.InteropServices;
 using Skydogs.SkdApp.GraphicsObject;
 
 namespace Skydogs.SkdApp.Manager;
@@ -14,7 +9,6 @@ interface ICtrGraphicsManager
 
 interface IRefGraphicsManager
 {
-    void Load(string key);
     void AddGraphicsObject(IGraphicsObject obj);
 }
 
@@ -27,25 +21,13 @@ class GraphicsManager : ICtrGraphicsManager, IRefGraphicsManager
 
     void ICtrGraphicsManager.Draw()
     {
-        for (int i = 0; i < MAX_GRAPHICS_OBJECTS; ++i)
+        foreach (var i in _objs)
         {
-            if (_objs[i] == null)
-                return;
-            _objs[i].Draw();
-            _objs[i] = null;
+            if (i == null)
+                break;
+            i.Draw();
         }
-    }
-
-    void IRefGraphicsManager.Load(string key)
-    {
-        var stream = (Program.GetAssembly()).GetManifestResourceStream("resource.resx");
-        var rset = new ResXResourceSet(stream);
-        var bmp = (Bitmap)rset.GetObject(key);
-        if (bmp == null)
-            return;
-        BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, bmp.PixelFormat);
-        DirectX.LoadImageWithKey(key, (int)bmpData.Scan0, (uint)bmpData.Width, (uint)bmpData.Height);
-        bmp.UnlockBits(bmpData);
+        _objs = new IGraphicsObject[MAX_GRAPHICS_OBJECTS];
     }
 
     void IRefGraphicsManager.AddGraphicsObject(IGraphicsObject obj)
