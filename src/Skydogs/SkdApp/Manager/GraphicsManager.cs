@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
+using System.Resources;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using Skydogs.SkdApp.GraphicsObject;
@@ -56,11 +57,15 @@ class GraphicsManager : ICtrGraphicsManager, IRefGraphicsManager
 
     void IRefGraphicsManager.Load(string key)
     {
-        var bmp = new Bitmap("reimu.png");
-        Rectangle rect = new Rectangle(0, 0, bmp.Width, bmp.Height);
-        BitmapData bmpData = bmp.LockBits(rect, ImageLockMode.ReadWrite, bmp.PixelFormat);
-        DirectX.LoadImageWithKey(key, (int)bmpData.Scan0, (uint)bmpData.Width, (uint)bmpData.Height);
-        bmp.UnlockBits(bmpData);
+        using (var stream = (Program.GetAssembly()).GetManifestResourceStream("resource.resx"))
+        using (var rset = new ResXResourceSet(stream))
+        {
+            var bmp = (Bitmap)rset.GetObject("reimu");
+            Rectangle rect = new Rectangle(0, 0, bmp.Width, bmp.Height);
+            BitmapData bmpData = bmp.LockBits(rect, ImageLockMode.ReadWrite, bmp.PixelFormat);
+            DirectX.LoadImageWithKey(key, (int)bmpData.Scan0, (uint)bmpData.Width, (uint)bmpData.Height);
+            bmp.UnlockBits(bmpData);
+        }
     }
 
     void IRefGraphicsManager.AddGraphicsObject(IGraphicsObject obj)

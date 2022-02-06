@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using System.Windows.Forms;
 using Skydogs.SkdApp.Manager;
 
@@ -23,5 +24,10 @@ class Program
             mainform.UpdateForm();
             DirectX.Present();
         }
+    }
+
+    public static Assembly GetAssembly()
+    {
+        return typeof(Program).Assembly;
     }
 }

@@ -3,7 +3,7 @@
 *.exp
 *.lib
 
-*.png
+*.resx
 
 *.otf
 *.ttf
