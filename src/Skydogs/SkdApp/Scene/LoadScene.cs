@@ -18,9 +18,9 @@ class LoadScene : IScene
     {
         if (_cnt == 0)
         {
-            _managers.GraphicsManager.Load("red");
+            _managers.GraphicsManager.Load("reimu");
         }
-        _managers.GraphicsManager.AddGraphicsObject(new ImageObject("red", 0.0f, 0.0f, 640.0f, 640.0f));
+        _managers.GraphicsManager.AddGraphicsObject(new ImageObject("reimu", 0.0f, 0.0f, 640.0f, 640.0f));
         ++_cnt;
     }
 }
