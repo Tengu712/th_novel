@@ -5,4 +5,4 @@
 /target:exe ^
 /platform:x86 ^
 /debug- ^
-../res/ResGen.cs
+..\res\ResGen.cs
