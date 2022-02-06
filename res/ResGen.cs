@@ -1,4 +1,5 @@
 using System.Drawing;
+using System.IO;
 using System.Resources;
 
 class ResGen
@@ -8,7 +9,11 @@ class ResGen
         try
         {
             var writer = new ResXResourceWriter("resource.resx");
-            writer.AddResource("reimu", Bitmap.FromFile("../res/reimu.png"));
+            string[] pngFiles = Directory.GetFiles("../res/", "*.png", SearchOption.TopDirectoryOnly);
+            foreach (var f in pngFiles)
+            {
+                writer.AddResource(f.Substring(7, f.Length - 11), Bitmap.FromFile(f));
+            }
             writer.Close();
         }
         catch (System.IO.FileNotFoundException e)
