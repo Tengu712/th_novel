@@ -14,7 +14,7 @@ interface IRefSceneManager
 
 class SceneManager : ICtrSceneManager, IRefSceneManager
 {
-    private IRefManagers _managers;
+    private readonly IRefManagers _managers;
     private IScene _scene;
 
     public SceneManager(IRefManagers managers)

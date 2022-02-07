@@ -6,7 +6,7 @@ namespace Skydogs.SkdApp;
 
 class MainForm : Form
 {
-    private readonly ICtrManagers _managers;
+    private readonly ICtrManagers _managers = new Managers();
 
     public MainForm()
     {
@@ -18,13 +18,11 @@ class MainForm : Form
         this.SetStyle(ControlStyles.DoubleBuffer, true);
         this.SetStyle(ControlStyles.UserPaint, true);
         this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-        _managers = new Managers();
     }
 
     public void UpdateForm()
     {
         _managers.SceneManager.Update();
-        _managers.FpsManager.Measure();
         _managers.GraphicsManager.Draw();
     }
 }

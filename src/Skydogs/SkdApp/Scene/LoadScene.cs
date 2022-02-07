@@ -5,12 +5,11 @@ namespace Skydogs.SkdApp.Scene;
 
 class LoadScene : IScene
 {
-    private int _cnt;
     private readonly IRefManagers _managers;
+    private int _cnt = 0;
 
     public LoadScene(IRefManagers managers)
     {
-        _cnt = 0;
         _managers = managers;
     }
 
