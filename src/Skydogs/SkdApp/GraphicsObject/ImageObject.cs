@@ -1,4 +1,3 @@
-using System.Drawing;
 using Skydogs.SkdApp.Manager;
 
 namespace Skydogs.SkdApp.GraphicsObject;
@@ -8,6 +7,7 @@ interface IImageObject : IGraphicsObject
     string ImageName { get; set; }
     float Width { get; set; }
     float Height { get; set; }
+    float SqSize { set; }
     float Deg { get; set; }
     float Red { get; set; }
     float Green { get; set; }
@@ -29,6 +29,10 @@ class ImageObject : IImageObject
     }
     public float Width { get; set; } = 0.0f;
     public float Height { get; set; } = 0.0f;
+    public float SqSize
+    {
+        set { Width = value; Height = value; }
+    }
     public float Deg { get; set; } = 0.0f;
     public float Red { get; set; } = 1.0f;
     public float Green { get; set; } = 1.0f;
@@ -36,38 +40,7 @@ class ImageObject : IImageObject
     public float Alpha { get; set; } = 1.0f;
     public bool IsCenter { get; set; } = false;
 
-    public ImageObject(string imageName)
-    {
-        ImageName = imageName;
-    }
-
-    public ImageObject(string imageName, float posx, float posy) : this(imageName)
-    {
-        PosX = posx;
-        PosY = posy;
-    }
-
-    public ImageObject(string imageName, float posx, float posy, float width, float height)
-        : this(imageName, posx, posy)
-    {
-        Width = width;
-        Height = height;
-    }
-
-    public ImageObject(string imageName, float posx, float posy, float width, float height, bool iscenter)
-        : this(imageName, posx, posy, width, height)
-    {
-        IsCenter = iscenter;
-    }
-
-    public ImageObject(string imageName, float posx, float posy, float width, float height,
-        float r, float g, float b, float a, bool iscenter) : this(imageName, posx, posy, width, height, iscenter)
-    {
-        Red = r;
-        Green = g;
-        Blue = b;
-        Alpha = a;
-    }
+    public ImageObject() { }
 
     void IGraphicsObject.Draw()
     {

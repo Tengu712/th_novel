@@ -20,8 +20,8 @@ class LoadScene : IScene
             ResourceX.LoadImage("img.reimu");
             ResourceX.LoadCharacterImage("", 'a');
         }
-        _managers.GraphicsManager.AddGraphicsObject(new ImageObject("img.reimu", 0.0f, 0.0f, 640.0f, 640.0f));
-        _managers.GraphicsManager.AddGraphicsObject(new ImageObject("chr.a", 0.0f, 0.0f, 64.0f, 64.0f));
+        _managers.GraphicsManager.AddGraphicsObject(new ImageObject { ImageName = "img.reimu", SqSize = 640.0f});
+        _managers.GraphicsManager.AddGraphicsObject(new ImageObject { ImageName = "chr.a", SqSize = 64.0f });
         ++_cnt;
     }
 }
