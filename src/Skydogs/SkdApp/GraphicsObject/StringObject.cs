@@ -62,7 +62,7 @@ class StringObject : IStringObject
                         break;
                 }
             }
-            string chrkey = "chr." + String[i].ToString();
+            string chrkey = "chr." + FontName + "." + String[i].ToString();
             DirectX.DrawImageWithKey(chrkey, x, y, Height, Height, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f);
             x += (float)Height * ResourceX.GetAspect(chrkey);
         }

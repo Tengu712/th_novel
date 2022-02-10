@@ -10,13 +10,27 @@ namespace Skydogs.SkdApp;
 
 class ResourceX
 {
-    private const int FONTSIZE = 60;
-    private const int CANVAS_HEIGHT = FONTSIZE + 4;
+    private const int FONTSIZE = 50;
+    private const int CANVAS_HEIGHT = 64;
     private const int CANVAS_WIDTH = CANVAS_HEIGHT + 40;
-    private static readonly Font font = new Font("Arial", FONTSIZE, GraphicsUnit.Pixel);
+    private static readonly PrivateFontCollection s_pfc = new PrivateFontCollection();
+    private static readonly Dictionary<string, Font> s_fonts = new Dictionary<string, Font>();
     private static readonly Dictionary<string, float> s_aspects = new Dictionary<string, float>();
 
     private ResourceX() { }
+
+    public static bool LoadFonts(string key)
+    {
+        var stream = (Program.GetAssembly()).GetManifestResourceStream("resource.resx"); ;
+        var rset = new ResXResourceSet(stream);
+        var data = (byte[])rset.GetObject(key);
+        IntPtr ptr = Marshal.AllocCoTaskMem(data.Length);
+        Marshal.Copy(data, 0, ptr, data.Length);
+        s_pfc.AddMemoryFont(ptr, data.Length);
+        Marshal.FreeCoTaskMem(ptr);
+        s_fonts.Add(key, new Font(s_pfc.Families[s_pfc.Families.Length - 1], FONTSIZE, GraphicsUnit.Pixel));
+        return true;
+    }
 
     public static bool LoadImage(string key)
     {
@@ -35,7 +49,10 @@ class ResourceX
     public static bool LoadCharacterImage(string key, char charactor)
     {
         var bmp = new Bitmap(CANVAS_WIDTH, CANVAS_HEIGHT);
-        (Graphics.FromImage(bmp)).DrawString(charactor.ToString(), font, Brushes.White, 0, 0);
+        var sf = new StringFormat();
+        sf.Alignment = StringAlignment.Center;
+        sf.LineAlignment = StringAlignment.Center;
+        (Graphics.FromImage(bmp)).DrawString(charactor.ToString(), s_fonts[key], Brushes.White, FONTSIZE / 2, FONTSIZE / 2, sf);
         BitmapData bmpData = bmp.LockBits(
             new Rectangle(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT), ImageLockMode.ReadWrite, bmp.PixelFormat);
 
@@ -72,6 +89,8 @@ class ResourceX
             int k = 0;
             for (int j = 0; j < CANVAS_WIDTH; ++j)
             {
+                if (k >= CANVAS_HEIGHT)
+                    break;
                 if (j <= leftest)
                     continue;
                 if (j >= rightest)
@@ -86,7 +105,7 @@ class ResourceX
 
         IntPtr ptr = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(byte)) * res.Length);
         Marshal.Copy(res, 0, ptr, res.Length);
-        string chrkey = "chr." + charactor.ToString();
+        string chrkey = "chr." + key + "." + charactor.ToString();
         if (!DirectX.LoadImageWithKey(chrkey, (int)ptr, (uint)CANVAS_HEIGHT, (uint)CANVAS_HEIGHT))
             return false;
         bmp.UnlockBits(bmpData);
@@ -96,6 +115,8 @@ class ResourceX
 
     public static float GetAspect(string key)
     {
+        if (!s_aspects.ContainsKey(key))
+            return 1.0f;
         return s_aspects[key];
     }
 }

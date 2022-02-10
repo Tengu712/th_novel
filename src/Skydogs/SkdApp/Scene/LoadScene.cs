@@ -23,14 +23,14 @@ class LoadScene : IScene
         if (_cnt == 1)
         {
             ++_cnt;
+            ResourceX.LoadFonts("fnt.normal");
             ResourceX.LoadImage("img.reimu");
-            ResourceX.LoadCharacterImage("", 'j');
-            ResourceX.LoadCharacterImage("", 'a');
-            ResourceX.LoadCharacterImage("", '案');
+            ResourceX.LoadCharacterImage("fnt.normal", 'a');
+            ResourceX.LoadCharacterImage("fnt.normal", 'd');
             return;
         }
         //_managers.GraphicsManager.AddGraphicsObject(new ImageObject { ImageName = "img.reimu", SqSize = 640.0f });
-        _managers.GraphicsManager.AddGraphicsObject(new StringObject { String = "案aj$njj案" });
+        _managers.GraphicsManager.AddGraphicsObject(new StringObject { String = "abcdefghijk" });
         ++_cnt;
     }
 }
