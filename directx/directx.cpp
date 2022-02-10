@@ -37,7 +37,7 @@ DLLEXPORT void __stdcall DrawImageWithKey(const char* key, float pos_x, float po
     }
     SetMatrixScale(scl_x, scl_y, 1.0f);
     SetMatrixRotate(0.0f, 0.0, deg);
-    SetMatrixTranslate(pos_x, pos_x, 0.0f);
+    SetMatrixTranslate(pos_x, pos_y, 0.0f);
     SetVectorColor(r, g, b, a);
     DrawModel(&g_idea);
 }

@@ -20,6 +20,7 @@ class ImageObject : IImageObject
 {
     public float PosX { get; set; } = 0.0f;
     public float PosY { get; set; } = 0.0f;
+    public bool IsScreen { get; set; } = true;
 
     private string _imageName = "";
     public string ImageName
@@ -38,19 +39,25 @@ class ImageObject : IImageObject
     public float Green { get; set; } = 1.0f;
     public float Blue { get; set; } = 1.0f;
     public float Alpha { get; set; } = 1.0f;
-    public bool IsCenter { get; set; } = false;
+    public bool IsCenter { get; set; } = true;
 
     public ImageObject() { }
 
     void IGraphicsObject.Draw()
     {
-        float pos_x = PosX;
-        float pos_y = PosY;
-        if (IsCenter)
+        float x = PosX;
+        float y = PosY;
+        if (IsScreen)
         {
-            pos_x -= Width / 2.0f;
-            pos_y -= Height / 2.0f;
+            x -= (float)GeneralInformation.WIDTH / 2.0f;
+            y -= (float)GeneralInformation.HEIGHT / 2.0f;
+            y *= -1.0f;
         }
-        DirectX.DrawImageWithKey(ImageName, pos_x, pos_y, Width, Height, Deg, Red, Green, Blue, Alpha);
+        if (!IsCenter)
+        {
+            x += Width / 2.0f;
+            y -= Height / 2.0f;
+        }
+        DirectX.DrawImageWithKey(ImageName, x, y, Width, Height, Deg, Red, Green, Blue, Alpha);
     }
 }

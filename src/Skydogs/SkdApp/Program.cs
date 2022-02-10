@@ -11,7 +11,7 @@ class Program
     public static void Main(string[] args)
     {
         MainForm mainform = new MainForm();
-        if (!DirectX.InitializeDirectX((int)mainform.Handle, 1280, 720))
+        if (!DirectX.InitializeDirectX((int)mainform.Handle, GeneralInformation.WIDTH, GeneralInformation.HEIGHT))
         {
             MessageBox.Show("Failed to initialize DirectX.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return;

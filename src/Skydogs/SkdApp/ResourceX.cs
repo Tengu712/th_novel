@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
@@ -9,10 +10,11 @@ namespace Skydogs.SkdApp;
 
 class ResourceX
 {
-    private static readonly int s_fontsize = 64;
-    private static readonly int s_cnvsWidth = s_fontsize + 40;
-    private static readonly int s_cnvsHeight = s_fontsize;
-    private static readonly Font font = new Font("Arial", s_fontsize, GraphicsUnit.Pixel);
+    private const int FONTSIZE = 60;
+    private const int CANVAS_HEIGHT = FONTSIZE + 4;
+    private const int CANVAS_WIDTH = CANVAS_HEIGHT + 40;
+    private static readonly Font font = new Font("Arial", FONTSIZE, GraphicsUnit.Pixel);
+    private static readonly Dictionary<string, float> s_aspects = new Dictionary<string, float>();
 
     private ResourceX() { }
 
@@ -32,29 +34,29 @@ class ResourceX
 
     public static bool LoadCharacterImage(string key, char charactor)
     {
-        var bmp = new Bitmap(s_cnvsWidth, s_cnvsHeight);
+        var bmp = new Bitmap(CANVAS_WIDTH, CANVAS_HEIGHT);
         (Graphics.FromImage(bmp)).DrawString(charactor.ToString(), font, Brushes.White, 0, 0);
         BitmapData bmpData = bmp.LockBits(
-            new Rectangle(0, 0, s_cnvsWidth, s_cnvsHeight), ImageLockMode.ReadWrite, bmp.PixelFormat);
+            new Rectangle(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT), ImageLockMode.ReadWrite, bmp.PixelFormat);
 
-        byte[] bits = new byte[s_cnvsWidth * s_cnvsHeight * 4];
+        byte[] bits = new byte[CANVAS_WIDTH * CANVAS_HEIGHT * 4];
         Marshal.Copy((IntPtr)bmpData.Scan0, bits, 0, bits.Length);
 
         int leftest = 1000;
         int rightest = 0;
-        for (int i = 1; i < s_cnvsHeight - 1; ++i)
+        for (int i = 1; i < CANVAS_HEIGHT - 1; ++i)
         {
-            for (int j = 1; j < s_cnvsWidth - 1; ++j)
+            for (int j = 1; j < CANVAS_WIDTH - 1; ++j)
             {
-                if (bits[s_cnvsWidth * 4 * i + j * 4 + 3] == 255)
+                if (bits[CANVAS_WIDTH * 4 * i + j * 4 + 3] == 255)
                     continue;
                 for (int k = 0; k < 9; ++k)
                 {
-                    int raw = s_cnvsWidth * 4 * (i - 1 + k / 3);
+                    int raw = CANVAS_WIDTH * 4 * (i - 1 + k / 3);
                     int col = (j - 1 + (k % 3)) * 4 + 3;
                     if (bits[raw + col] != 255)
                         continue;
-                    bits[s_cnvsWidth * 4 * i + j * 4 + 3] = 128;
+                    bits[CANVAS_WIDTH * 4 * i + j * 4 + 3] = 128;
                     leftest = Math.Min(leftest, j);
                     rightest = Math.Max(rightest, j);
                     break;
@@ -62,30 +64,38 @@ class ResourceX
             }
         }
 
-        leftest -= 4;
-        byte[] res = new byte[s_cnvsHeight * s_cnvsHeight * 4];
-        for (int i = 0; i < s_cnvsHeight; ++i)
+        leftest -= 2;
+        rightest += 2;
+        byte[] res = new byte[CANVAS_HEIGHT * CANVAS_HEIGHT * 4];
+        for (int i = 0; i < CANVAS_HEIGHT; ++i)
         {
             int k = 0;
-            for (int j = 0; j < s_cnvsHeight; ++j)
+            for (int j = 0; j < CANVAS_WIDTH; ++j)
             {
-                if (j < leftest)
+                if (j <= leftest)
                     continue;
                 if (j >= rightest)
                     break;
-                res[s_cnvsHeight * 4 * i + k * 4 + 0] = 255;
-                res[s_cnvsHeight * 4 * i + k * 4 + 1] = 255;
-                res[s_cnvsHeight * 4 * i + k * 4 + 2] = 255;
-                res[s_cnvsHeight * 4 * i + k * 4 + 3] = bits[s_cnvsWidth * 4 * i + j * 4 + 3];
+                res[CANVAS_HEIGHT * 4 * i + k * 4 + 0] = 255;
+                res[CANVAS_HEIGHT * 4 * i + k * 4 + 1] = 255;
+                res[CANVAS_HEIGHT * 4 * i + k * 4 + 2] = 255;
+                res[CANVAS_HEIGHT * 4 * i + k * 4 + 3] = bits[CANVAS_WIDTH * 4 * i + j * 4 + 3];
                 ++k;
             }
         }
 
         IntPtr ptr = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(byte)) * res.Length);
         Marshal.Copy(res, 0, ptr, res.Length);
-        if (!DirectX.LoadImageWithKey("chr." + charactor.ToString(), (int)ptr, (uint)s_cnvsHeight, (uint)s_cnvsHeight))
+        string chrkey = "chr." + charactor.ToString();
+        if (!DirectX.LoadImageWithKey(chrkey, (int)ptr, (uint)CANVAS_HEIGHT, (uint)CANVAS_HEIGHT))
             return false;
         bmp.UnlockBits(bmpData);
+        s_aspects.Add(chrkey, (float)(rightest - leftest) / (float)CANVAS_HEIGHT);
         return true;
+    }
+
+    public static float GetAspect(string key)
+    {
+        return s_aspects[key];
     }
 }

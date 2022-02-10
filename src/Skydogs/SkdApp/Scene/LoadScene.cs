@@ -17,11 +17,20 @@ class LoadScene : IScene
     {
         if (_cnt == 0)
         {
-            ResourceX.LoadImage("img.reimu");
-            ResourceX.LoadCharacterImage("", 'a');
+            ++_cnt;
+            return;
         }
-        _managers.GraphicsManager.AddGraphicsObject(new ImageObject { ImageName = "img.reimu", SqSize = 640.0f});
-        _managers.GraphicsManager.AddGraphicsObject(new ImageObject { ImageName = "chr.a", SqSize = 64.0f });
+        if (_cnt == 1)
+        {
+            ++_cnt;
+            ResourceX.LoadImage("img.reimu");
+            ResourceX.LoadCharacterImage("", 'j');
+            ResourceX.LoadCharacterImage("", 'a');
+            ResourceX.LoadCharacterImage("", '案');
+            return;
+        }
+        //_managers.GraphicsManager.AddGraphicsObject(new ImageObject { ImageName = "img.reimu", SqSize = 640.0f });
+        _managers.GraphicsManager.AddGraphicsObject(new StringObject { String = "案aj$njj案" });
         ++_cnt;
     }
 }

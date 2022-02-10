@@ -7,13 +7,14 @@ interface IStringObject : IGraphicsObject
 {
     string String { get; set; }
     string FontName { get; set; }
-    string BrushName { get; set; }
+    int Height { get; set; }
 }
 
 class StringObject : IStringObject
 {
     public float PosX { get; set; } = 0.0f;
     public float PosY { get; set; } = 0.0f;
+    public bool IsScreen { get; set; } = true;
 
     private string _string = "";
     public string String
@@ -21,43 +22,49 @@ class StringObject : IStringObject
         get { return _string; }
         set { _string = value == null ? "" : value; }
     }
-    private string _fontName = "Logue";
+    private string _fontName = "fnt.normal";
     public string FontName
     {
         get { return _fontName; }
-        set { _fontName = value == null ? "Logue" : value; }
+        set { _fontName = value == null ? "fnt.normal" : value; }
     }
-    private string _brushName = "White";
-    public string BrushName
-    {
-        get { return _brushName; }
-        set { _brushName = value == null ? "White" : value; }
-    }
+    public int Height { get; set; } = 64;
 
-    public StringObject(string str)
-    {
-        String = str;
-    }
-
-    public StringObject(string str, float posx, float posy) : this(str)
-    {
-        PosX = posx;
-        PosY = posy;
-    }
-
-    public StringObject(string str, string fontName, string brushName) : this(str)
-    {
-        FontName = fontName;
-        BrushName = brushName;
-    }
-
-    public StringObject(string str, string fontName, string brushName, float posx, float posy) : this(str, posx, posy)
-    {
-        FontName = fontName;
-        BrushName = brushName;
-    }
+    public StringObject() { }
 
     void IGraphicsObject.Draw()
     {
+        float x_start = PosX;
+        float y_start = PosY;
+        if (IsScreen)
+        {
+            x_start -= (float)GeneralInformation.WIDTH / 2.0f;
+            y_start -= (float)GeneralInformation.HEIGHT / 2.0f;
+            y_start *= -1.0f;
+        }
+        x_start += Height / 2.0f;
+        y_start -= Height / 2.0f;
+
+        float x = x_start;
+        float y = y_start;
+        for (int i = 0; i < String.Length; ++i)
+        {
+            if (String[i] == '$' && i + 1 < String.Length)
+            {
+                switch (String[i + 1])
+                {
+                    case 'n':
+                        x = x_start;
+                        y -= Height;
+                        ++i;
+                        continue;
+                    default:
+                        break;
+                }
+            }
+            string chrkey = "chr." + String[i].ToString();
+            DirectX.DrawImageWithKey(chrkey, x, y, Height, Height, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f);
+            x += (float)Height * ResourceX.GetAspect(chrkey);
+        }
     }
 }

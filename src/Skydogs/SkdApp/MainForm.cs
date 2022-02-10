@@ -10,8 +10,8 @@ class MainForm : Form
 
     public MainForm()
     {
-        this.Text = "幻想異郷";
-        this.ClientSize = new Size(1280, 720);
+        this.Text = GeneralInformation.TITLE;
+        this.ClientSize = new Size(GeneralInformation.WIDTH, GeneralInformation.HEIGHT);
         this.MaximumSize = this.Size;
         this.MinimumSize = this.Size;
         this.MaximizeBox = false;
