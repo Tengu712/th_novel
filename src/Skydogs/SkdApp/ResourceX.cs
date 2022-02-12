@@ -21,28 +21,32 @@ class ResourceX
 
     public static bool LoadFonts(string key)
     {
-        var stream = (Program.GetAssembly()).GetManifestResourceStream("resource.resx"); ;
-        var rset = new ResXResourceSet(stream);
-        var data = (byte[])rset.GetObject(key);
-        IntPtr ptr = Marshal.AllocCoTaskMem(data.Length);
-        Marshal.Copy(data, 0, ptr, data.Length);
-        s_pfc.AddMemoryFont(ptr, data.Length);
-        Marshal.FreeCoTaskMem(ptr);
-        s_fonts.Add(key, new Font(s_pfc.Families[s_pfc.Families.Length - 1], FONTSIZE, GraphicsUnit.Pixel));
+        using (var stream = (Program.GetAssembly()).GetManifestResourceStream("resource.resx"))
+        using (var rset = new ResXResourceSet(stream))
+        {
+            var data = (byte[])rset.GetObject(key);
+            IntPtr ptr = Marshal.AllocCoTaskMem(data.Length);
+            Marshal.Copy(data, 0, ptr, data.Length);
+            s_pfc.AddMemoryFont(ptr, data.Length);
+            Marshal.FreeCoTaskMem(ptr);
+            s_fonts.Add(key, new Font(s_pfc.Families[s_pfc.Families.Length - 1], FONTSIZE, GraphicsUnit.Pixel));
+        }
         return true;
     }
 
     public static bool LoadImage(string key)
     {
-        var stream = (Program.GetAssembly()).GetManifestResourceStream("resource.resx");
-        var rset = new ResXResourceSet(stream);
-        var bmp = (Bitmap)rset.GetObject(key);
-        if (bmp == null)
-            return false;
-        BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, bmp.PixelFormat);
-        if (!DirectX.LoadImageWithKey(key, (int)bmpData.Scan0, (uint)bmpData.Width, (uint)bmpData.Height))
-            return false;
-        bmp.UnlockBits(bmpData);
+        using (var stream = (Program.GetAssembly()).GetManifestResourceStream("resource.resx"))
+        using (var rset = new ResXResourceSet(stream))
+        {
+            var bmp = (Bitmap)rset.GetObject(key);
+            if (bmp == null)
+                return false;
+            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, bmp.PixelFormat);
+            if (!DirectX.LoadImageWithKey(key, (int)bmpData.Scan0, (uint)bmpData.Width, (uint)bmpData.Height))
+                return false;
+            bmp.UnlockBits(bmpData);
+        }
         return true;
     }
 

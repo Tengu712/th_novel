@@ -11,8 +11,6 @@ class Program
     [STAThread]
     public static void Main(string[] args)
     {
-        if (args.Length > 0 && args[0].Equals("debug"))
-            AllocConsole();
         MainForm mainform = new MainForm();
         if (!DirectX.InitializeDirectX((int)mainform.Handle, GeneralInformation.WIDTH, GeneralInformation.HEIGHT))
         {
@@ -33,7 +31,4 @@ class Program
     {
         return typeof(Program).Assembly;
     }
-
-    [DllImport("kernel32.dll", EntryPoint = "AllocConsole")]
-    private static extern bool AllocConsole();
 }
