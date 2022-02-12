@@ -6,9 +6,9 @@ namespace Skydogs.SkdApp;
 
 class MainForm : Form
 {
-    private readonly ICtrManagers _managers = new Managers();
+    private readonly ICtrManagers _managers;
 
-    public MainForm()
+    public MainForm(ICtrManagers managers)
     {
         this.Text = GeneralInformation.TITLE;
         this.ClientSize = new Size(GeneralInformation.WIDTH, GeneralInformation.HEIGHT);
@@ -19,26 +19,23 @@ class MainForm : Form
         this.SetStyle(ControlStyles.UserPaint, true);
         this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
         this.MouseClick += new MouseEventHandler(ClickedMouseButton);
-    }
-
-    public void UpdateForm()
-    {
-        _managers.SceneManager.Update();
-        _managers.GraphicsManager.Draw();
+        this.KeyDown += new KeyEventHandler(DownedKey);
+        this.KeyUp += new KeyEventHandler(UppedKey);
+        this._managers = managers;
     }
 
     private void ClickedMouseButton(object sender, MouseEventArgs e)
     {
-        switch (e.Button)
-        {
-            case MouseButtons.Left:
-                _managers.UIManager.Clicked(true, e.X, e.Y);
-                break;
-            case MouseButtons.Right:
-                _managers.UIManager.Clicked(false, e.X, e.Y);
-                break;
-            default:
-                break;
-        }
+        _managers.EventManager.Clicked(e);
+    }
+
+    private void DownedKey(object sender, KeyEventArgs e)
+    {
+        _managers.EventManager.DownedKey(e);
+    }
+
+    private void UppedKey(object sender, KeyEventArgs e)
+    {
+        _managers.EventManager.UppedKey(e);
     }
 }

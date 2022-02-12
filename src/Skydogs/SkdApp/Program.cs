@@ -11,7 +11,8 @@ class Program
     [STAThread]
     public static void Main(string[] args)
     {
-        MainForm mainform = new MainForm();
+        var managers = new Managers();
+        var mainform = new MainForm(managers);
         if (!DirectX.InitializeDirectX((int)mainform.Handle, GeneralInformation.WIDTH, GeneralInformation.HEIGHT))
         {
             MessageBox.Show("Failed to initialize DirectX.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -22,7 +23,7 @@ class Program
         {
             Application.DoEvents();
             DirectX.ClearSetBackBuffer(0.0f, 0.0f, 0.0f);
-            mainform.UpdateForm();
+            managers.Update();
             DirectX.Present();
         }
     }
