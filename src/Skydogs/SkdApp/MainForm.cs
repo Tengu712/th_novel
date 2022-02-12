@@ -6,7 +6,7 @@ namespace Skydogs.SkdApp;
 
 class MainForm : Form
 {
-    private readonly ICtrManagers _managers;
+    private readonly ICtrEventManager _eventManager;
 
     public MainForm(ICtrManagers managers)
     {
@@ -21,21 +21,21 @@ class MainForm : Form
         this.MouseClick += new MouseEventHandler(ClickedMouseButton);
         this.KeyDown += new KeyEventHandler(DownedKey);
         this.KeyUp += new KeyEventHandler(UppedKey);
-        this._managers = managers;
+        this._eventManager = managers.EventManager;
     }
 
     private void ClickedMouseButton(object sender, MouseEventArgs e)
     {
-        _managers.EventManager.Clicked(e);
+        _eventManager.Clicked(e);
     }
 
     private void DownedKey(object sender, KeyEventArgs e)
     {
-        _managers.EventManager.DownedKey(e);
+        _eventManager.DownedKey(e);
     }
 
     private void UppedKey(object sender, KeyEventArgs e)
     {
-        _managers.EventManager.UppedKey(e);
+        _eventManager.UppedKey(e);
     }
 }
