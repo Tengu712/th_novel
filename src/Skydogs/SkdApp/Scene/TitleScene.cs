@@ -13,5 +13,7 @@ class TitleScene : IScene
         _managers = managers;
     }
 
-    void IScene.Update() { }
+    void IScene.Update()
+    {
+    }
 }

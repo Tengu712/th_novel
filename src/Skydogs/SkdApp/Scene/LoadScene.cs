@@ -18,19 +18,16 @@ class LoadScene : IScene
         if (_cnt == 0)
         {
             ++_cnt;
+            ResourceX.LoadImage("img.load");
+            _managers.GraphicsManager.AddGraphicsObject(
+                new ImageObject { ImageName = "img.load", SqSize = 1280.0f, IsCenter = false });
             return;
         }
-        if (_cnt == 1)
-        {
-            ++_cnt;
-            ResourceX.LoadFonts("fnt.normal");
-            ResourceX.LoadImage("img.reimu");
-            ResourceX.LoadCharacterImage("fnt.normal", 'a');
-            ResourceX.LoadCharacterImage("fnt.normal", 'd');
-            return;
-        }
-        //_managers.GraphicsManager.AddGraphicsObject(new ImageObject { ImageName = "img.reimu", SqSize = 640.0f });
-        _managers.GraphicsManager.AddGraphicsObject(new StringObject { String = "abcdefghijk" });
         ++_cnt;
+        ResourceX.LoadFonts("fnt.normal");
+        ResourceX.LoadImage("img.reimu");
+        ResourceX.LoadCharacterImage("fnt.normal", 'a');
+        ResourceX.LoadCharacterImage("fnt.normal", 'd');
+        _managers.SceneManager.ChangeScene(SceneID.Title);
     }
 }
