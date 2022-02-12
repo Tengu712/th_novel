@@ -1,5 +1,6 @@
 using System.Drawing;
 using Skydogs.SkdApp.Manager;
+using Skydogs.SkdApp.Resource;
 
 namespace Skydogs.SkdApp.GraphicsObject;
 
@@ -62,9 +63,13 @@ class StringObject : IStringObject
                         break;
                 }
             }
-            string chrkey = "chr." + FontName + "." + String[i].ToString();
-            DirectX.DrawImageWithKey(chrkey, x, y, Height, Height, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f);
-            x += (float)Height * ResourceX.GetAspect(chrkey);
+            var sb = new System.Text.StringBuilder();
+            sb.Append("chr.");
+            sb.Append(String[i]);
+            sb.Append(".");
+            sb.Append(FontName);
+            DirectX.DrawImageWithKey(sb.ToString(), x, y, Height, Height, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f);
+            x += (float)Height * ResourceX.GetAspect(sb.ToString());
         }
     }
 }

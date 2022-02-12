@@ -27,6 +27,11 @@ DLLEXPORT bool __stdcall LoadImageWithKey(const char* key, int data, unsigned in
     return CreateImageShaderResourceView((unsigned char*)data, width, height, &g_umImages[key]);
 }
 
+DLLEXPORT void __stdcall UnloadImageWithKey(const char* key) {
+    g_umImages[key]->Release();
+    g_umImages.erase(key);
+}
+
 DLLEXPORT void __stdcall DrawImageWithKey(const char* key, float pos_x, float pos_y, float scl_x, float scl_y,
     float deg, float r, float g, float b, float a) {
     if (g_umImages.find(key) == g_umImages.end()) {

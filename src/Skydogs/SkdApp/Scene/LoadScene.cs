@@ -1,5 +1,6 @@
 using Skydogs.SkdApp.GraphicsObject;
 using Skydogs.SkdApp.Manager;
+using Skydogs.SkdApp.Resource;
 
 namespace Skydogs.SkdApp.Scene;
 
@@ -17,17 +18,18 @@ class LoadScene : IScene
     {
         if (_cnt == 0)
         {
-            ++_cnt;
-            ResourceX.LoadImage("img.load");
+            var rqTemp = new LoadImageRequest();
+            rqTemp.Add("img.load");
+            ImageLoader.LoadTemp(rqTemp);
             _managers.GraphicsManager.AddGraphicsObject(
                 new ImageObject { ImageName = "img.load", SqSize = 1280.0f, IsCenter = false });
+            ++_cnt;
             return;
         }
-        ++_cnt;
-        ResourceX.LoadFonts("fnt.normal");
-        ResourceX.LoadImage("img.reimu");
-        ResourceX.LoadCharacterImage("fnt.normal", 'a');
-        ResourceX.LoadCharacterImage("fnt.normal", 'd');
+        ResourceX.LoadFont("fnt.normal");
+        var rq = new LoadImageRequest();
+        rq.AddCharacterKeysWithString("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", "fnt.normal");
+        ImageLoader.Load(rq);
         _managers.SceneManager.ChangeScene(SceneID.Title);
     }
 }
