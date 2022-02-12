@@ -1,4 +1,3 @@
-using System;
 using Skydogs.SkdApp.GraphicsObject;
 using Skydogs.SkdApp.Manager;
 
