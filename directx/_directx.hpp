@@ -61,7 +61,7 @@ extern ConstantBuffer g_cbuffer;
 extern ModelBuffer g_idea;
 extern ComPtr<ID2D1RenderTarget> g_pD2DRT;
 extern ComPtr<ID2D1SolidColorBrush> g_pD2DBrush;
-extern ComPtr<IDWriteTextFormat> g_pDWTextformat;
+extern ComPtr<IDWriteFactory> g_pDWFactory;
 extern std::unordered_map<std::string, ComPtr<ID3D11ShaderResourceView>> g_umImages;
 
 inline bool Error(const char* msg) {

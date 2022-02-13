@@ -7,7 +7,7 @@ namespace Skydogs.SkdApp.GraphicsObject;
 interface IStringObject : IGraphicsObject
 {
     string String { get; set; }
-    int Size { get; set; }
+    float Size { get; set; }
 }
 
 class StringObject : IStringObject
@@ -21,12 +21,12 @@ class StringObject : IStringObject
         get { return _string; }
         set { _string = value == null ? "" : value; }
     }
-    public int Size { get; set; } = 64;
+    public float Size { get; set; } = 32.0f;
 
     public StringObject() { }
 
     void IGraphicsObject.Draw()
     {
-        DirectX.DrawString(String, PosX, PosY, 0.0f);
+        DirectX.DrawString(String, PosX, PosY, Size);
     }
 }

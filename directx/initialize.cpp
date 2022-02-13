@@ -134,16 +134,9 @@ bool InitializeDirect2D() {
     if (FAILED(g_pD2DRT->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::WhiteSmoke), g_pD2DBrush.GetAddressOf())))
         return Error("Failed to create brush.");
 
-    ComPtr<IDWriteFactory> p_dwfactory = nullptr;
     if (FAILED(DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory),
-            reinterpret_cast<IUnknown**>(p_dwfactory.GetAddressOf()))))
+            reinterpret_cast<IUnknown**>(g_pDWFactory.GetAddressOf()))))
         return Error("Failed to create DirectDraw factory.");
-
-    if (FAILED(p_dwfactory->CreateTextFormat(L"メイリオ", nullptr, DWRITE_FONT_WEIGHT_NORMAL, DWRITE_FONT_STYLE_NORMAL,
-            DWRITE_FONT_STRETCH_NORMAL, 64, L"ja-JP", g_pDWTextformat.GetAddressOf())))
-        return Error("Failed to create text format.");
-    if (FAILED(g_pDWTextformat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING)))
-        return Error("Failed to set textformat alignment.");
 
     return true;
 }

@@ -15,5 +15,5 @@ ConstantBuffer g_cbuffer;
 ModelBuffer g_idea;
 ComPtr<ID2D1RenderTarget> g_pD2DRT = nullptr;
 ComPtr<ID2D1SolidColorBrush> g_pD2DBrush = nullptr;
-ComPtr<IDWriteTextFormat> g_pDWTextformat = nullptr;
+ComPtr<IDWriteFactory> g_pDWFactory = nullptr;
 std::unordered_map<std::string, ComPtr<ID3D11ShaderResourceView>> g_umImages;

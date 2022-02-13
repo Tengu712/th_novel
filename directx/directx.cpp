@@ -49,9 +49,15 @@ DLLEXPORT void __stdcall DrawImageWithKey(const char* key, float pos_x, float po
 }
 
 DLLEXPORT void __stdcall DrawString(const wchar_t* str_, float pos_x, float pos_y, float size) {
+    ComPtr<IDWriteTextFormat> p_format = nullptr;
+    if (FAILED(g_pDWFactory->CreateTextFormat(L"メイリオ", nullptr, DWRITE_FONT_WEIGHT_NORMAL, DWRITE_FONT_STYLE_NORMAL,
+            DWRITE_FONT_STRETCH_NORMAL, size, L"ja-JP", p_format.GetAddressOf())))
+        return;
+    if (FAILED(p_format->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING)))
+        return;
     std::wstring str(str_);
     g_pD2DRT->BeginDraw();
-    g_pD2DRT->DrawText(str.c_str(), str.size(), g_pDWTextformat.Get(), D2D1::RectF(pos_x, pos_y, g_width, g_height),
+    g_pD2DRT->DrawText(str.c_str(), str.size(), p_format.Get(), D2D1::RectF(pos_x, pos_y, g_width, g_height),
         g_pD2DBrush.Get());
     g_pD2DRT->EndDraw();
 }
