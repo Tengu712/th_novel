@@ -1,6 +1,7 @@
 using Skydogs.SkdApp.GraphicsObject;
 using Skydogs.SkdApp.Manager;
 using Skydogs.SkdApp.Resource;
+using Skydogs.SkdApp.GameObject;
 
 namespace Skydogs.SkdApp.Scene;
 
@@ -13,6 +14,7 @@ class TitleScene : IScene
         _managers = managers;
         //var request = new LoadRequest();
         //ImageLoader.LoadTemp(request);
+        var s = new Scenario("snr.1.hakureishrine");
     }
 
     void IScene.Update()

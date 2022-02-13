@@ -26,5 +26,14 @@ class ResourceX
         return true;
     }
 
+    public static string[] GetScenario(string key)
+    {
+        using (var stream = (Program.GetAssembly()).GetManifestResourceStream("resource.resx"))
+        using (var rset = new ResXResourceSet(stream))
+        {
+            return (string[])rset.GetObject(key);
+        }
+    }
+
     private ResourceX() { }
 }

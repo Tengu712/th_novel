@@ -14,6 +14,13 @@ class ResGen
             string[] pngFiles = Directory.GetFiles("../res/", "*.png", SearchOption.TopDirectoryOnly);
             foreach (var f in pngFiles)
                 writer.AddResource(f.Substring(7, f.Length - 11), Bitmap.FromFile(f));
+            // Scenario
+            string[] snrFiles = Directory.GetFiles("../res/", "*.snr", SearchOption.TopDirectoryOnly);
+            foreach (var f in snrFiles)
+            {
+                var strs = File.ReadAllLines(f);
+                writer.AddResource(f.Substring(7, f.Length - 11), strs);
+            }
             // End
             writer.Close();
         }
