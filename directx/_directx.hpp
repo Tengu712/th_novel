@@ -4,19 +4,22 @@
 #define _HEADER_DIRECTX_HPP_
 
 #include <DirectXMath.h>
+#include <d2d1.h>
 #include <d3d11.h>
+#include <dwrite.h>
 #include <windows.h>
 #include <wrl/client.h>
 
-#include <unordered_map>
 #include <string>
+#include <unordered_map>
 
 #include "_pshader.h"
 #include "_vshader.h"
 
-
 #pragma comment(lib, "user32.lib")
+#pragma comment(lib, "d2d1.lib")
 #pragma comment(lib, "d3d11.lib")
+#pragma comment(lib, "dwrite.lib")
 #pragma comment(lib, "dxgi.lib")
 
 #define DLLEXPORT extern "C" __declspec(dllexport)
@@ -56,6 +59,9 @@ extern ComPtr<ID3D11InputLayout> g_pILayout;
 extern ComPtr<ID3D11Buffer> g_pCBuffer;
 extern ConstantBuffer g_cbuffer;
 extern ModelBuffer g_idea;
+extern ComPtr<ID2D1RenderTarget> g_pD2DRT;
+extern ComPtr<ID2D1SolidColorBrush> g_pD2DBrush;
+extern ComPtr<IDWriteTextFormat> g_pDWTextformat;
 extern std::unordered_map<std::string, ComPtr<ID3D11ShaderResourceView>> g_umImages;
 
 inline bool Error(const char* msg) {
@@ -68,6 +74,7 @@ bool CreateBackBuffer();
 bool CreateShader();
 bool SetRenderConfigure();
 bool CreateIdea();
+bool InitializeDirect2D();
 
 void SetMatrixScale(float scl_x, float scl_y, float scl_z);
 void SetMatrixRotate(float deg_x, float deg_y, float deg_z);

@@ -114,3 +114,36 @@ bool CreateIdea() {
     unsigned int data_indx[6U] = {0, 1, 2, 0, 2, 3};
     return CreateModelBuffer(g_idea.num_idx, data_pcnu, data_indx, &g_idea);
 }
+
+bool InitializeDirect2D() {
+    ComPtr<ID2D1Factory> p_factory = nullptr;
+    if (FAILED(D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, p_factory.GetAddressOf())))
+        return Error("Failed to create Direct2D factory.");
+
+    ComPtr<IDXGISurface> p_backbuffer = nullptr;
+    if (FAILED(g_pSwapchain->GetBuffer(0, __uuidof(IDXGISurface), (void**)p_backbuffer.GetAddressOf())))
+        return Error("Failed to create backbuffer for Direct2D.");
+
+    float dpi_x, dpi_y;
+    p_factory->GetDesktopDpi(&dpi_x, &dpi_y);
+    D2D1_RENDER_TARGET_PROPERTIES props = D2D1::RenderTargetProperties(D2D1_RENDER_TARGET_TYPE_DEFAULT,
+        D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED), dpi_x, dpi_y);
+    if (FAILED(p_factory->CreateDxgiSurfaceRenderTarget(p_backbuffer.Get(), &props, g_pD2DRT.GetAddressOf())))
+        return Error("Failed to create Direct2D render target.");
+
+    if (FAILED(g_pD2DRT->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::WhiteSmoke), g_pD2DBrush.GetAddressOf())))
+        return Error("Failed to create brush.");
+
+    ComPtr<IDWriteFactory> p_dwfactory = nullptr;
+    if (FAILED(DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory),
+            reinterpret_cast<IUnknown**>(p_dwfactory.GetAddressOf()))))
+        return Error("Failed to create DirectDraw factory.");
+
+    if (FAILED(p_dwfactory->CreateTextFormat(L"メイリオ", nullptr, DWRITE_FONT_WEIGHT_NORMAL, DWRITE_FONT_STYLE_NORMAL,
+            DWRITE_FONT_STRETCH_NORMAL, 64, L"ja-JP", g_pDWTextformat.GetAddressOf())))
+        return Error("Failed to create text format.");
+    if (FAILED(g_pDWTextformat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING)))
+        return Error("Failed to set textformat alignment.");
+
+    return true;
+}

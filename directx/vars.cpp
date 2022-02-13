@@ -13,4 +13,7 @@ ComPtr<ID3D11InputLayout> g_pILayout = nullptr;
 ComPtr<ID3D11Buffer> g_pCBuffer = nullptr;
 ConstantBuffer g_cbuffer;
 ModelBuffer g_idea;
+ComPtr<ID2D1RenderTarget> g_pD2DRT = nullptr;
+ComPtr<ID2D1SolidColorBrush> g_pD2DBrush = nullptr;
+ComPtr<IDWriteTextFormat> g_pDWTextformat = nullptr;
 std::unordered_map<std::string, ComPtr<ID3D11ShaderResourceView>> g_umImages;

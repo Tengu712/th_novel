@@ -45,18 +45,25 @@ class DirectX
     }
 
     [DllImport("directx.dll", EntryPoint = "UnloadImageWithKey")]
-    private static extern bool s_unloadImageWithKey(string key);
-    public static bool UnloadImageWithKey(string key)
+    private static extern void s_unloadImageWithKey(string key);
+    public static void UnloadImageWithKey(string key)
     {
-        return s_unloadImageWithKey(key);
+        s_unloadImageWithKey(key);
     }
 
     [DllImport("directx.dll", EntryPoint = "DrawImageWithKey")]
-    private static extern bool
+    private static extern void
     s_drawImageWithKey(string key, float pos_x, float pos_y, float scl_x, float scl_y, float deg, float r, float g, float b, float a);
-    public static bool
+    public static void
     DrawImageWithKey(string key, float pos_x, float pos_y, float scl_x, float scl_y, float deg, float r, float g, float b, float a)
     {
-        return s_drawImageWithKey(key, pos_x, pos_y, scl_x, scl_y, deg, r, g, b, a);
+        s_drawImageWithKey(key, pos_x, pos_y, scl_x, scl_y, deg, r, g, b, a);
+    }
+
+    [DllImport("directx.dll", EntryPoint = "DrawString", CharSet = CharSet.Unicode)]
+    private static extern void s_drawString(string str, float pos_x, float pos_y, float size);
+    public static void DrawString(string str, float pos_x, float pos_y, float size)
+    {
+        s_drawString(str, pos_x, pos_y, size);
     }
 }

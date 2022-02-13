@@ -1,4 +1,4 @@
-#include "_directx.hpp"
+﻿#include "_directx.hpp"
 
 DLLEXPORT bool __stdcall InitializeDirectX(int h_wnd, unsigned int width, unsigned int height) {
     g_hWnd = (HWND)h_wnd;
@@ -10,6 +10,7 @@ DLLEXPORT bool __stdcall InitializeDirectX(int h_wnd, unsigned int width, unsign
     res = res && CreateShader();
     res = res && SetRenderConfigure();
     res = res && CreateIdea();
+    res = res && InitializeDirect2D();
     return res;
 }
 
@@ -45,4 +46,12 @@ DLLEXPORT void __stdcall DrawImageWithKey(const char* key, float pos_x, float po
     SetMatrixTranslate(pos_x, pos_y, 0.0f);
     SetVectorColor(r, g, b, a);
     DrawModel(&g_idea);
+}
+
+DLLEXPORT void __stdcall DrawString(const wchar_t* str_, float pos_x, float pos_y, float size) {
+    std::wstring str(str_);
+    g_pD2DRT->BeginDraw();
+    g_pD2DRT->DrawText(str.c_str(), str.size(), g_pDWTextformat.Get(), D2D1::RectF(pos_x, pos_y, g_width, g_height),
+        g_pD2DBrush.Get());
+    g_pD2DRT->EndDraw();
 }

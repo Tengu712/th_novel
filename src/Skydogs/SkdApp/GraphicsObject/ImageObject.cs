@@ -14,13 +14,13 @@ interface IImageObject : IGraphicsObject
     float Blue { get; set; }
     float Alpha { get; set; }
     bool IsCenter { get; set; }
+    bool IsScreen { get; set; }
 }
 
 class ImageObject : IImageObject
 {
     public float PosX { get; set; } = 0.0f;
     public float PosY { get; set; } = 0.0f;
-    public bool IsScreen { get; set; } = true;
 
     private string _imageName = "";
     public string ImageName
@@ -40,6 +40,7 @@ class ImageObject : IImageObject
     public float Blue { get; set; } = 1.0f;
     public float Alpha { get; set; } = 1.0f;
     public bool IsCenter { get; set; } = true;
+    public bool IsScreen { get; set; } = true;
 
     public ImageObject() { }
 

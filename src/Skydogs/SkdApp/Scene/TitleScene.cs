@@ -17,6 +17,9 @@ class TitleScene : IScene
 
     void IScene.Update()
     {
-        _managers.GraphicsManager.AddGraphicsObject(new StringObject { String = "Start" });
+        _managers.GraphicsManager.AddGraphicsObject(
+                new ImageObject { ImageName = "img.load", SqSize = 1280.0f, IsCenter = false });
+        _managers.GraphicsManager.AddGraphicsObject(
+            new StringObject { String = "仏にはさくらの花をたてまつれ\nわがのちの世を人とぶらはば", PosX = 360.0f, PosY = 360.0f });
     }
 }

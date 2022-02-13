@@ -26,9 +26,7 @@ class LoadScene : IScene
             ++_cnt;
             return;
         }
-        ResourceX.LoadFont("fnt.normal");
         var rq = new LoadImageRequest();
-        rq.AddCharacterKeysWithString("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", "fnt.normal");
         ImageLoader.Load(rq);
         _managers.SceneManager.ChangeScene(SceneID.Title);
     }
