@@ -40,6 +40,5 @@ class SceneManager : ICtrSceneManager, IRefSceneManager
                 _scene = new TitleScene(_managers);
                 break;
         }
-        System.GC.Collect();
     }
 }

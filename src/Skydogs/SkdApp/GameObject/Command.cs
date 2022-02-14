@@ -1,2 +1,0 @@
-namespace Skydogs.SkdApp.GameObject;
-
