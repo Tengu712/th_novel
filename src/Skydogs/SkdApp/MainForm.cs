@@ -19,12 +19,18 @@ class MainForm : Form
         this.SetStyle(ControlStyles.UserPaint, true);
         this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
         this.MouseClick += new MouseEventHandler(ClickedMouseButton);
+        this.MouseDoubleClick += new MouseEventHandler(DoubleClickedMouseButton);
         this.KeyDown += new KeyEventHandler(DownedKey);
         this.KeyUp += new KeyEventHandler(UppedKey);
         this._eventManager = managers.EventManager;
     }
 
     private void ClickedMouseButton(object sender, MouseEventArgs e)
+    {
+        _eventManager.Clicked(e);
+    }
+
+    private void DoubleClickedMouseButton(object sender, MouseEventArgs e)
     {
         _eventManager.Clicked(e);
     }

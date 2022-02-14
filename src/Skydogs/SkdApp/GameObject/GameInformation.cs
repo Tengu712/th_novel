@@ -1,5 +1,3 @@
-
-
 using Skydogs.SkdApp.Manager;
 
 namespace Skydogs.SkdApp.GameObject;
