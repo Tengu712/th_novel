@@ -1,3 +1,5 @@
+
+
 using Skydogs.SkdApp.Manager;
 
 namespace Skydogs.SkdApp.GameObject;
@@ -23,8 +25,7 @@ class GameInformation
         get { return AllTime / 1440; }
     }
     public string Place { get; set; } = "";
-    public string LogueString { get; set; } = "";
-    public string SpeakerName { get; set; } = "";
+    public LogueBoxObject LogueBox { get; set; } = new LogueBoxObject();
     public BackGroundObject BackGround { get; set; } = null;
     public CharactorObject LeftCharactor { get; set; } = null;
     public CharactorObject CenterCharactor { get; set; } = null;

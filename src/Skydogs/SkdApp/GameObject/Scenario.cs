@@ -56,7 +56,6 @@ class Scenario
         if (_currentBlock == null)
             throw new System.Exception("Not checked block called.");
         _currentBlock.Update(ginf);
-        _managers.GraphicsManager.AddGraphicsObject(new StringObject { String = ginf.SpeakerName });
-        _managers.GraphicsManager.AddGraphicsObject(new StringObject { String = ginf.LogueString, PosX = 360.0f, PosY = 360.0f });
+        ginf.LogueBox.Draw(_managers.GraphicsManager);
     }
 }

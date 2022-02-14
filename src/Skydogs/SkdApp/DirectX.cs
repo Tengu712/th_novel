@@ -52,18 +52,20 @@ class DirectX
     }
 
     [DllImport("directx.dll", EntryPoint = "DrawImageWithKey")]
-    private static extern void
-    s_drawImageWithKey(string key, float pos_x, float pos_y, float scl_x, float scl_y, float deg, float r, float g, float b, float a);
-    public static void
-    DrawImageWithKey(string key, float pos_x, float pos_y, float scl_x, float scl_y, float deg, float r, float g, float b, float a)
+    private static extern void s_drawImageWithKey(string key, float pos_x, float pos_y,
+        float scl_x, float scl_y, float deg, float r, float g, float b, float a);
+    public static void DrawImageWithKey(string key, float pos_x, float pos_y,
+        float scl_x, float scl_y, float deg, float r, float g, float b, float a)
     {
         s_drawImageWithKey(key, pos_x, pos_y, scl_x, scl_y, deg, r, g, b, a);
     }
 
     [DllImport("directx.dll", EntryPoint = "DrawString", CharSet = CharSet.Unicode)]
-    private static extern void s_drawString(string str, float pos_x, float pos_y, float size);
-    public static void DrawString(string str, float pos_x, float pos_y, float size)
+    private static extern void
+        s_drawString(string str, float pos_x, float pos_y, float max_x, float max_y, float size, int alignment);
+    public static void
+        DrawString(string str, float pos_x, float pos_y, float max_x, float max_y, float size, int alignment)
     {
-        s_drawString(str, pos_x, pos_y, size);
+        s_drawString(str, pos_x, pos_y, max_x, max_y, size, alignment);
     }
 }

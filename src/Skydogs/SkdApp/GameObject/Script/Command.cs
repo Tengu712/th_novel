@@ -7,17 +7,16 @@ interface ICommand
 
 class MonoLogue : ICommand
 {
-    private readonly string _str = null;
+    private readonly string _logue = null;
 
     public MonoLogue(string str)
     {
-        _str = str;
+        _logue = str.Replace("\\n", "\n");
     }
 
     bool ICommand.Update(GameInformation ginf)
     {
-        ginf.SpeakerName = "";
-        ginf.LogueString = _str;
+        ginf.LogueBox.Set("", _logue);
         return ginf.EventManager.ClickedMouseLeft(0, 0, GeneralInformation.WIDTH, GeneralInformation.HEIGHT);
     }
 }
@@ -33,13 +32,12 @@ class Logue : ICommand
         if (words.Length < 3)
             throw new System.ArgumentException();
         _name = words[1];
-        _logue = words[2];
+        _logue = words[2].Replace("\\n", "\n");
     }
 
     bool ICommand.Update(GameInformation ginf)
     {
-        ginf.SpeakerName = _name;
-        ginf.LogueString = _logue;
+        ginf.LogueBox.Set(_name, _logue);
         return ginf.EventManager.ClickedMouseLeft(0, 0, GeneralInformation.WIDTH, GeneralInformation.HEIGHT);
     }
 }
