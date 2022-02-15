@@ -52,7 +52,7 @@ DLLEXPORT void __stdcall DrawString(
     const wchar_t* str_, float pos_x, float pos_y, float max_x, float max_y, float size, int centering) {
     ComPtr<IDWriteTextFormat> p_format = nullptr;
     if (FAILED(g_pDWFactory->CreateTextFormat(L"メイリオ", nullptr, DWRITE_FONT_WEIGHT_NORMAL, DWRITE_FONT_STYLE_NORMAL,
-            DWRITE_FONT_STRETCH_NORMAL, size, L"ja-JP", p_format.GetAddressOf())))
+            DWRITE_FONT_STRETCH_NORMAL, size * 72.0f / 96.0f, L"ja-JP", p_format.GetAddressOf())))
         return;
     DWRITE_TEXT_ALIGNMENT alignment;
     switch (centering) {

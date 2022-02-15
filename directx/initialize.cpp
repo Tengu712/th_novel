@@ -124,10 +124,9 @@ bool InitializeDirect2D() {
     if (FAILED(g_pSwapchain->GetBuffer(0, __uuidof(IDXGISurface), (void**)p_backbuffer.GetAddressOf())))
         return Error("Failed to create backbuffer for Direct2D.");
 
-    float dpi_x, dpi_y;
-    p_factory->GetDesktopDpi(&dpi_x, &dpi_y);
+    float dpi = GetDpiForWindow(g_hWnd);
     D2D1_RENDER_TARGET_PROPERTIES props = D2D1::RenderTargetProperties(D2D1_RENDER_TARGET_TYPE_DEFAULT,
-        D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED), dpi_x, dpi_y);
+        D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED), dpi, dpi);
     if (FAILED(p_factory->CreateDxgiSurfaceRenderTarget(p_backbuffer.Get(), &props, g_pD2DRT.GetAddressOf())))
         return Error("Failed to create Direct2D render target.");
 
