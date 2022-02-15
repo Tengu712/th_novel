@@ -35,6 +35,9 @@ class SceneManager : ICtrSceneManager, IRefSceneManager
             case SceneID.Load:
                 _scene = new LoadScene(_managers);
                 break;
+            case SceneID.GamePlay:
+                _scene = new GamePlayScene(_managers);
+                break;
             case SceneID.Title:
             default:
                 _scene = new TitleScene(_managers);

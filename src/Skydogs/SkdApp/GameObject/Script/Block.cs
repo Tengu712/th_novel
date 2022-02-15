@@ -17,10 +17,8 @@ class BlockHeader
         _condition = new Condition(parser.GetNext());
     }
 
-    public bool Check(GameInformation ginf)
-    {
-        return _startTime <= ginf.Time && ginf.Time < _endTime && _condition.Check(ginf);
-    }
+    public bool Check(GameInformation ginf) =>
+        _startTime <= ginf.Time && ginf.Time < _endTime && _condition.Check(ginf);
 }
 
 class Block
@@ -56,15 +54,9 @@ class Block
         throw new System.IO.EndOfStreamException();
     }
 
-    public bool IsEnd()
-    {
-        return _currentCommand == null;
-    }
+    public bool IsEnd() => _currentCommand == null;
 
-    public bool Check(GameInformation ginf)
-    {
-        return _header.Check(ginf);
-    }
+    public bool Check(GameInformation ginf) => _header.Check(ginf);
 
     public void Update(GameInformation ginf)
     {

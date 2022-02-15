@@ -2,5 +2,5 @@ namespace Skydogs.SkdApp.Scene;
 
 enum SceneID
 {
-    Load, Title,
+    Load, Title, GamePlay,
 }

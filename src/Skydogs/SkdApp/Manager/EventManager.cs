@@ -103,13 +103,9 @@ class EventManager : ICtrEventManager, IRefEventManager
             Shift = false;
     }
 
-    bool IRefEventManager.ClickedMouseLeft(int x, int y, int w, int h)
-    {
-        return _mouse_button == 0 && x <= _mouse_x && x + w >= _mouse_x && y <= _mouse_y && y + h >= _mouse_y;
-    }
+    bool IRefEventManager.ClickedMouseLeft(int x, int y, int w, int h) =>
+        _mouse_button == 0 && x <= _mouse_x && x + w >= _mouse_x && y <= _mouse_y && y + h >= _mouse_y;
 
-    bool IRefEventManager.ClickedMouseRight(int x, int y, int w, int h)
-    {
-        return _mouse_button == 1 && x <= _mouse_x && x + w >= _mouse_x && y <= _mouse_y && y + h >= _mouse_y;
-    }
+    bool IRefEventManager.ClickedMouseRight(int x, int y, int w, int h) =>
+        _mouse_button == 1 && x <= _mouse_x && x + w >= _mouse_x && y <= _mouse_y && y + h >= _mouse_y;
 }

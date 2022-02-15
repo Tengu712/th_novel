@@ -11,6 +11,11 @@ class Program
     [STAThread]
     public static void Main(string[] args)
     {
+        if (!System.IO.File.Exists("directx.dll"))
+        {
+            MessageBox.Show("'directx.dll' not found at the directory.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
+        }
         var managers = new Managers();
         var mainform = new MainForm(managers);
         if (!DirectX.InitializeDirectX((int)mainform.Handle, GeneralInformation.WIDTH, GeneralInformation.HEIGHT))
@@ -28,10 +33,7 @@ class Program
         }
     }
 
-    public static Assembly GetAssembly()
-    {
-        return typeof(Program).Assembly;
-    }
+    public static Assembly GetAssembly() => typeof(Program).Assembly;
 
     public static void Panic(string message)
     {
