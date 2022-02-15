@@ -36,8 +36,5 @@ class StringObject : IStringObject
 
     public StringObject() { }
 
-    void IGraphicsObject.Draw()
-    {
-        DirectX.DrawString(String, PosX, PosY, MaxX, MaxY, Size, (int)Alignment);
-    }
+    void IGraphicsObject.Draw() => DirectX.DrawString(String, PosX, PosY, MaxX, MaxY, Size, (int)Alignment);
 }

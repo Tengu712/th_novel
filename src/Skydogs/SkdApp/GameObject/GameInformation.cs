@@ -1,4 +1,5 @@
 using Skydogs.SkdApp.Manager;
+using Skydogs.SkdApp.GameObject.UI;
 
 namespace Skydogs.SkdApp.GameObject;
 
@@ -14,7 +15,6 @@ enum SelectionID
 
 class GameInformation
 {
-    public IRefEventManager EventManager { get; private set; } = null;
     public GameSceneID Scene { get; set; } = GameSceneID.Neutral;
     public SelectionID Selection { get; set; } = SelectionID.None;
 
@@ -28,14 +28,14 @@ class GameInformation
         get { return AllTime / 1440; }
     }
     public string Place { get; set; } = "";
-    public LogueBoxObject LogueBox { get; set; } = new LogueBoxObject();
+    public LogueBoxObject LogueBox { get; private set; } = null;
     public BackGroundObject BackGround { get; set; } = null;
     public CharactorObject LeftCharactor { get; set; } = null;
     public CharactorObject CenterCharactor { get; set; } = null;
     public CharactorObject RightCharactor { get; set; } = null;
 
-    public GameInformation(IRefEventManager eventManager)
+    public GameInformation(IRefManagers managers)
     {
-        EventManager = eventManager;
+        LogueBox = new LogueBoxObject(managers);
     }
 }

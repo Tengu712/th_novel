@@ -19,7 +19,7 @@ class MonoLogue : ICommand
     bool ICommand.Update(GameInformation ginf)
     {
         ginf.LogueBox.Set("", _logue);
-        return ginf.EventManager.ClickedMouseLeft(0, 0, GeneralInformation.WIDTH, GeneralInformation.HEIGHT);
+        return ginf.LogueBox.Clicked();
     }
 }
 
@@ -39,7 +39,7 @@ class Logue : ICommand
     bool ICommand.Update(GameInformation ginf)
     {
         ginf.LogueBox.Set(_name, _logue);
-        return ginf.EventManager.ClickedMouseLeft(0, 0, GeneralInformation.WIDTH, GeneralInformation.HEIGHT);
+        return ginf.LogueBox.Clicked();
     }
 }
 

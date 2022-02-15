@@ -17,32 +17,32 @@ class GamePlayScene : IScene
     public GamePlayScene(IRefManagers managers)
     {
         _managers = managers;
-        _ginf = new GameInformation(_managers.EventManager);
-        _selection = new Selection(_managers);
+        _ginf = new GameInformation(_managers);
+        _selection = new Selection(_managers, _ginf);
         Reload();
     }
 
     private void Reload()
     {
-        _scenario = new Scenario(_managers, "snr.1.hakureishrine");
+        _scenario = new Scenario(_managers, _ginf, "snr.1.hakureishrine");
         System.GC.Collect();
     }
 
     void IScene.Update()
     {
-        switch(_ginf.Scene)
+        switch (_ginf.Scene)
         {
             case GameSceneID.Reload:
                 Reload();
                 break;
             case GameSceneID.Neutral:
-                _scenario.Check(_ginf);
+                _scenario.Check();
                 break;
             case GameSceneID.Selection:
-                _selection.Update(_ginf);
+                _selection.Update();
                 break;
             case GameSceneID.Talking:
-                _scenario.Update(_ginf);
+                _scenario.Update();
                 break;
             default:
                 break;

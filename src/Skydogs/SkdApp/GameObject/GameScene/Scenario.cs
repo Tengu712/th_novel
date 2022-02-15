@@ -9,12 +9,15 @@ namespace Skydogs.SkdApp.GameObject.GameScene;
 class Scenario : IGameScene
 {
     private readonly IRefManagers _managers;
+    private readonly GameInformation _ginf;
+
     private readonly LinkedList<Block> _blocks = new LinkedList<Block>();
     private Block _currentBlock = null;
 
-    public Scenario(IRefManagers managers, string key)
+    public Scenario(IRefManagers managers, GameInformation ginf, string key)
     {
         _managers = managers;
+        _ginf = ginf;
         var data = ResourceX.GetScenario(key);
         if (data == null)
             Program.Panic($"The scenario '{key}' not exist.");
@@ -32,30 +35,30 @@ class Scenario : IGameScene
         }
     }
 
-    public void Check(GameInformation ginf)
+    public void Check()
     {
         if (_currentBlock != null && !_currentBlock.IsEnd())
         {
-            ginf.Scene = GameSceneID.Talking;
+            _ginf.Scene = GameSceneID.Talking;
             return;
         }
         foreach (var i in _blocks)
         {
-            if (!i.Check(ginf))
+            if (!i.Check(_ginf))
                 continue;
             _currentBlock = i;
-            ginf.Scene = GameSceneID.Talking;
+            _ginf.Scene = GameSceneID.Talking;
             return;
         }
         _currentBlock = null;
-        ginf.Scene = GameSceneID.Selection;
+        _ginf.Scene = GameSceneID.Selection;
     }
 
-    public void Update(GameInformation ginf)
+    public void Update()
     {
         if (_currentBlock == null)
             Program.Panic("Null scenario updated.");
-        _currentBlock.Update(ginf);
-        ginf.LogueBox.Draw(_managers.GraphicsManager);
+        _currentBlock.Update(_ginf);
+        _ginf.LogueBox.Draw();
     }
 }
