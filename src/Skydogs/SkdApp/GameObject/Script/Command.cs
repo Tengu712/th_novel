@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Skydogs.SkdApp.GameObject.Script;
 
 interface ICommand
@@ -7,7 +9,7 @@ interface ICommand
 
 class MonoLogue : ICommand
 {
-    private readonly string _logue = null;
+    private readonly string _logue;
 
     public MonoLogue(string str)
     {
@@ -23,8 +25,8 @@ class MonoLogue : ICommand
 
 class Logue : ICommand
 {
-    private readonly string _name = null;
-    private readonly string _logue = null;
+    private readonly string _name;
+    private readonly string _logue;
 
     public Logue(string str)
     {
@@ -43,8 +45,8 @@ class Logue : ICommand
 
 class ChangeBackGround : ICommand
 {
-    private readonly string _imageName = null;
-    private readonly bool _isForce = false;
+    private readonly string _imageName;
+    private readonly bool _isForce;
 
     public ChangeBackGround(string str)
     {
@@ -62,10 +64,10 @@ class ChangeBackGround : ICommand
 
 class ChangeCharactor : ICommand
 {
-    private readonly string _name = null;
-    private readonly string _express = null;
-    private readonly string _position = null;
-    private readonly bool _isForce = false;
+    private readonly string _name;
+    private readonly string _express;
+    private readonly string _position;
+    private readonly bool _isForce;
 
     public ChangeCharactor(string str)
     {
@@ -124,7 +126,7 @@ class TimeAdd : ICommand
 
 class FlagAdd : ICommand
 {
-    private readonly string _flagName = null;
+    private readonly string _flagName;
     private readonly int _add = 0;
 
     public FlagAdd(string str)
@@ -133,6 +135,41 @@ class FlagAdd : ICommand
         parser.Skip();
         _flagName = parser.GetNext();
         _add = int.Parse(parser.GetNext());
+    }
+
+    bool ICommand.Update(GameInformation ginf)
+    {
+        return true;
+    }
+}
+
+class BulletCommand : ICommand
+{
+    private readonly string _kind;
+    private readonly LinkedList<ICommand> _succeededs = new LinkedList<ICommand>();
+    private readonly LinkedList<ICommand> _faileds = new LinkedList<ICommand>();
+
+    public BulletCommand(string[] data, ref int i)
+    {
+        if (data == null)
+            Program.Panic("[Script] Tried to create #bul command from null string array.");
+        var parser = new Parser(data[i]);
+        parser.Skip();
+        _kind = parser.GetNext();
+        ++i;
+        var flag = false;
+        for (; i < data.Length; ++i)
+        {
+            if (data[i].Equals("#end"))
+                return;
+            if (data[i].Equals("#failed"))
+                flag = true;
+            if (flag)
+                _succeededs.AddLast(Parser.CreateCommand(data, ref i));
+            else
+                _faileds.AddLast(Parser.CreateCommand(data, ref i));
+        }
+        Program.Panic("[Script] #bul command not closed with #end.");
     }
 
     bool ICommand.Update(GameInformation ginf)

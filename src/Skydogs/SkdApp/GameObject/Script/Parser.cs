@@ -51,46 +51,46 @@ class Parser
     {
         if (string.IsNullOrEmpty(clock))
             Program.Panic("[Script] Tried to convert null or empty clock to int.");
-        var arr = clock.Split(':');
-        if (arr.Length < 2)
-            Program.Panic($"[Script] Wrong clock syntax.\n{clock}");
-        return int.Parse(arr[0]) * 60 + int.Parse(arr[1]);
+        var parser = new Parser(clock, ':');
+        return int.Parse(parser.GetNext()) * 60 + int.Parse(parser.GetNext());
     }
 
-    public static ICommand CreateCommand(string str)
+    public static ICommand CreateCommand(string[] data, ref int i)
     {
-        if (string.IsNullOrEmpty(str))
-            Program.Panic("[Script] Tried to create commands from null string.");
-        if (str.Length == 0)
-            Program.Panic("[Script] Tried to create commands from white line.");
-        switch (str[0])
+        if (data == null)
+            Program.Panic("[Script] Tried to create commands from null string array.");
+        switch (data[i][0])
         {
             case '#':
-                return CreateSystemCommand(str);
+                return CreateSystemCommand(data, ref i);
             case '/':
-                return new Logue(str);
+                return new Logue(data[i]);
             default:
-                return new MonoLogue(str);
+                return new MonoLogue(data[i]);
         }
     }
 
-    private static ICommand CreateSystemCommand(string str)
+    private static ICommand CreateSystemCommand(string[] data, ref int i)
     {
-        var parser = new Parser(str);
+        if (data == null)
+            Program.Panic("[Script] Tried to create system commands from null string array.");
+        var parser = new Parser(data[i]);
         switch (parser.GetNext())
         {
             case "#bg":
-                return new ChangeBackGround(str);
+                return new ChangeBackGround(data[i]);
             case "#ch":
-                return new ChangeCharactor(str);
+                return new ChangeCharactor(data[i]);
             case "#timeset":
-                return new TimeSet(str);
+                return new TimeSet(data[i]);
             case "#timeadd":
-                return new TimeAdd(str);
+                return new TimeAdd(data[i]);
             case "#add":
-                return new FlagAdd(str);
+                return new FlagAdd(data[i]);
+            case "#bul":
+                return new BulletCommand(data, ref i);
             default:
-                return new MonoLogue(str);
+                return new MonoLogue(data[i]);
         }
     }
 }

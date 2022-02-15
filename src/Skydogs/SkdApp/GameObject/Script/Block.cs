@@ -51,7 +51,7 @@ class Block
             }
             if (_header == null)
                 Program.Panic($"[Script] Command found without block.\n{i}:{data[i]}");
-            _commands.AddLast(Parser.CreateCommand(data[i]));
+            _commands.AddLast(Parser.CreateCommand(data, ref i));
         }
         throw new System.IO.EndOfStreamException();
     }
