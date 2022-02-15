@@ -1,6 +1,5 @@
 using System;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Skydogs.SkdApp.Manager;
 
@@ -13,7 +12,7 @@ class Program
     {
         if (!System.IO.File.Exists("directx.dll"))
         {
-            MessageBox.Show("'directx.dll' not found at the directory.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show("'directx.dll' not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return;
         }
         var managers = new Managers();

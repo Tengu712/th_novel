@@ -25,23 +25,8 @@ class MainForm : Form
         this._eventManager = managers.EventManager;
     }
 
-    private void ClickedMouseButton(object sender, MouseEventArgs e)
-    {
-        _eventManager.Clicked(e);
-    }
-
-    private void DoubleClickedMouseButton(object sender, MouseEventArgs e)
-    {
-        _eventManager.Clicked(e);
-    }
-
-    private void DownedKey(object sender, KeyEventArgs e)
-    {
-        _eventManager.DownedKey(e);
-    }
-
-    private void UppedKey(object sender, KeyEventArgs e)
-    {
-        _eventManager.UppedKey(e);
-    }
+    private void ClickedMouseButton(object sender, MouseEventArgs e) => _eventManager.Clicked(e);
+    private void DoubleClickedMouseButton(object sender, MouseEventArgs e) => _eventManager.Clicked(e);
+    private void DownedKey(object sender, KeyEventArgs e) => _eventManager.DownedKey(e);
+    private void UppedKey(object sender, KeyEventArgs e) => _eventManager.UppedKey(e);
 }
