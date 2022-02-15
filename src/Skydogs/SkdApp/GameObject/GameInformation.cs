@@ -27,7 +27,7 @@ class GameInformation
     {
         get { return AllTime / 1440; }
     }
-    public string Place { get; set; } = "";
+    public string Place { get; set; } = "marisahome";
     public LogueBoxObject LogueBox { get; private set; } = null;
     public BackGroundObject BackGround { get; set; } = null;
     public CharactorObject LeftCharactor { get; set; } = null;

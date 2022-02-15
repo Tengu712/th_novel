@@ -77,19 +77,24 @@ class Parser
         switch (parser.GetNext())
         {
             case "#bg":
-                return new ChangeBackGround(data[i]);
+                return new ChangeBackGround(parser.GetAfter());
             case "#ch":
-                return new ChangeCharactor(data[i]);
+                return new ChangeCharactor(parser.GetAfter());
+            case "#wait":
+                return new Wait(parser.GetAfter());
+            case "#goto":
+                return new Goto(parser.GetAfter());
             case "#timeset":
-                return new TimeSet(data[i]);
+                return new TimeSet(parser.GetAfter());
             case "#timeadd":
-                return new TimeAdd(data[i]);
+                return new TimeAdd(parser.GetAfter());
             case "#add":
-                return new FlagAdd(data[i]);
+                return new FlagAdd(parser.GetAfter());
             case "#bul":
                 return new BulletCommand(data, ref i);
             default:
-                return new MonoLogue(data[i]);
+                Program.Panic($"Unexpected command.\n{data[i]}");
+                return null;
         }
     }
 }

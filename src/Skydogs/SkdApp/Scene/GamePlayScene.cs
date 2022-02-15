@@ -24,8 +24,9 @@ class GamePlayScene : IScene
 
     private void Reload()
     {
-        _scenario = new Scenario(_managers, _ginf, "snr.1.hakureishrine");
+        _scenario = new Scenario(_managers, _ginf, $"snr.{_ginf.Day}.{_ginf.Place}");
         System.GC.Collect();
+        _ginf.Scene = GameSceneID.Neutral;
     }
 
     void IScene.Update()

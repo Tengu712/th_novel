@@ -51,7 +51,6 @@ class ChangeBackGround : ICommand
     public ChangeBackGround(string str)
     {
         var parser = new Parser(str);
-        parser.Skip();
         _imageName = parser.GetNext();
         _isForce = parser.GetNext().Equals("!");
     }
@@ -72,7 +71,6 @@ class ChangeCharactor : ICommand
     public ChangeCharactor(string str)
     {
         var parser = new Parser(str);
-        parser.Skip();
         _name = parser.GetNext();
         _express = parser.GetNext();
         _position = parser.GetNext();
@@ -85,15 +83,47 @@ class ChangeCharactor : ICommand
     }
 }
 
+class Wait : ICommand
+{
+    private readonly int _wait;
+    private int _cnt = 0;
+
+    public Wait(string str)
+    {
+        _wait = int.Parse(str);
+    }
+
+    bool ICommand.Update(GameInformation ginf)
+    {
+        ++_cnt;
+        return _cnt >= _wait;
+    }
+}
+
+class Goto : ICommand
+{
+    private string _destination;
+
+    public Goto(string str)
+    {
+        _destination = str;
+    }
+
+    bool ICommand.Update(GameInformation ginf)
+    {
+        ginf.Place = _destination;
+        ginf.Scene = GameSceneID.Reload;
+        return false;
+    }
+}
+
 class TimeSet : ICommand
 {
-    private readonly int _time = 0;
+    private readonly int _time;
 
     public TimeSet(string str)
     {
-        var parser = new Parser(str);
-        parser.Skip();
-        _time = Parser.ConvertClockToInt(parser.GetNext());
+        _time = Parser.ConvertClockToInt(str);
     }
 
     bool ICommand.Update(GameInformation ginf)
@@ -105,13 +135,11 @@ class TimeSet : ICommand
 
 class TimeAdd : ICommand
 {
-    private readonly int _time = 0;
+    private readonly int _time;
 
     public TimeAdd(string str)
     {
-        var parser = new Parser(str);
-        parser.Skip();
-        _time = Parser.ConvertClockToInt(parser.GetNext());
+        _time = Parser.ConvertClockToInt(str);
     }
 
     bool ICommand.Update(GameInformation ginf)
@@ -127,12 +155,11 @@ class TimeAdd : ICommand
 class FlagAdd : ICommand
 {
     private readonly string _flagName;
-    private readonly int _add = 0;
+    private readonly int _add;
 
     public FlagAdd(string str)
     {
         var parser = new Parser(str);
-        parser.Skip();
         _flagName = parser.GetNext();
         _add = int.Parse(parser.GetNext());
     }
@@ -163,7 +190,10 @@ class BulletCommand : ICommand
             if (data[i].Equals("#end"))
                 return;
             if (data[i].Equals("#failed"))
+            {
                 flag = true;
+                continue;
+            }
             if (flag)
                 _succeededs.AddLast(Parser.CreateCommand(data, ref i));
             else
