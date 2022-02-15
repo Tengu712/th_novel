@@ -2,6 +2,7 @@ using Skydogs.SkdApp.GraphicsObject;
 using Skydogs.SkdApp.Manager;
 using Skydogs.SkdApp.Resource;
 using Skydogs.SkdApp.GameObject;
+using Skydogs.SkdApp.GameObject.GameScene;
 using Skydogs.SkdApp.GameObject.Script;
 
 namespace Skydogs.SkdApp.Scene;
@@ -11,11 +12,13 @@ class TitleScene : IScene
     private readonly IRefManagers _managers;
     private GameInformation _ginf;
     private Scenario _scenario;
+    private Selection _selection;
 
     public TitleScene(IRefManagers managers)
     {
         _managers = managers;
         _ginf = new GameInformation(_managers.EventManager);
+        _selection = new Selection(_managers);
         Reload();
     }
 
@@ -36,7 +39,7 @@ class TitleScene : IScene
                 _scenario.Check(_ginf);
                 break;
             case GameSceneID.Selection:
-                System.Console.WriteLine("Selecting...");
+                _selection.Update(_ginf);
                 break;
             case GameSceneID.Talking:
                 _scenario.Update(_ginf);

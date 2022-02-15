@@ -4,9 +4,9 @@ using Skydogs.SkdApp.GraphicsObject;
 using Skydogs.SkdApp.Resource;
 using Skydogs.SkdApp.Manager;
 
-namespace Skydogs.SkdApp.GameObject.Script;
+namespace Skydogs.SkdApp.GameObject.GameScene;
 
-class Scenario
+class Scenario : IGameScene
 {
     private readonly IRefManagers _managers;
     private readonly LinkedList<Block> _blocks = new LinkedList<Block>();

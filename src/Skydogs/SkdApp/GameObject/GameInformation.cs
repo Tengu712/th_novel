@@ -7,11 +7,16 @@ enum GameSceneID
     Reload, Neutral, Selection, Talking,
 }
 
+enum SelectionID
+{
+    None, Talk,
+}
+
 class GameInformation
 {
     public IRefEventManager EventManager { get; private set; } = null;
     public GameSceneID Scene { get; set; } = GameSceneID.Neutral;
-    public string Selection { get; set; } = "";
+    public SelectionID Selection { get; set; } = SelectionID.None;
 
     public int AllTime { get; set; } = 0;
     public int Time

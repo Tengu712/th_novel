@@ -42,10 +42,9 @@ class Parser
         return last;
     }
 
-    public string GetAfter()
-    {
-        return _str.Substring(_prevIdx);
-    }
+    public string GetAfter() => _str.Substring(_prevIdx);
+
+    public string GetAll() => _str;
 
     public static int ConvertClockToInt(string clock)
     {

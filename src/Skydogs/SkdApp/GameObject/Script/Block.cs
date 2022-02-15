@@ -4,22 +4,22 @@ namespace Skydogs.SkdApp.GameObject.Script;
 
 class BlockHeader
 {
-    public int StartTime { get; private set; } = 0;
-    public int EndTime { get; private set; } = 0;
-    public bool IsForced { get; private set; } = false;
+    private readonly int _startTime;
+    private readonly int _endTime;
+    private readonly Condition _condition;
 
     public BlockHeader(string str)
     {
         var parser = new Parser(str);
         parser.Skip();
-        StartTime = Parser.ConvertClockToInt(parser.GetNext());
-        EndTime = Parser.ConvertClockToInt(parser.GetNext());
-        IsForced = parser.GetNext().Equals("!");
+        _startTime = Parser.ConvertClockToInt(parser.GetNext());
+        _endTime = Parser.ConvertClockToInt(parser.GetNext());
+        _condition = new Condition(parser.GetNext());
     }
 
     public bool Check(GameInformation ginf)
     {
-        return StartTime <= ginf.Time && ginf.Time < EndTime && IsForced;
+        return _startTime <= ginf.Time && ginf.Time < _endTime && _condition.Check(ginf);
     }
 }
 
@@ -70,6 +70,8 @@ class Block
     {
         if (_currentCommand == null)
             _currentCommand = _commands.First;
+        if (_currentCommand == null)
+            Program.Panic("[Script] Empty block found.");
         if (_currentCommand.Value.Update(ginf))
             _currentCommand = _currentCommand.Next;
         if (_currentCommand == null)
