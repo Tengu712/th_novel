@@ -3,60 +3,66 @@ namespace Skydogs.SkdApp.GameObject.Script;
 class Parser
 {
     private readonly string _str = null;
-    private int prevIdx = 0;
+    private int _prevIdx = 0;
+    private readonly char _separator;
 
-    public Parser(string str)
+    public Parser(string str, char separator = ' ')
     {
+        if (str == null)
+            Program.Panic("[Script] Parser given null string to construct.");
         _str = str;
+        _separator = separator;
     }
 
     public void Skip()
     {
-        for (int i = prevIdx; i < _str.Length; ++i)
+        for (int i = _prevIdx; i < _str.Length; ++i)
         {
-            if (_str[i] != ' ')
+            if (_str[i] != _separator)
                 continue;
-            prevIdx = i + 1;
+            _prevIdx = i + 1;
             return;
         }
     }
 
     public string GetNext()
     {
-        for (int i = prevIdx; i < _str.Length; ++i)
+        if (_prevIdx == _str.Length)
+            return string.Empty;
+        for (int i = _prevIdx; i < _str.Length; ++i)
         {
-            if (_str[i] != ' ')
+            if (_str[i] != _separator)
                 continue;
-            string res = _str.Substring(prevIdx, i - prevIdx);
-            prevIdx = i + 1;
+            string res = _str.Substring(_prevIdx, i - _prevIdx);
+            _prevIdx = i + 1;
             return res;
         }
-        string last = _str.Substring(prevIdx);
-        prevIdx = _str.Length;
+        string last = _str.Substring(_prevIdx);
+        _prevIdx = _str.Length;
         return last;
     }
 
     public string GetAfter()
     {
-        return _str.Substring(prevIdx);
+        return _str.Substring(_prevIdx);
     }
 
     public static int ConvertClockToInt(string clock)
     {
-        if (clock == null)
-            throw new System.ArgumentNullException();
+        if (string.IsNullOrEmpty(clock))
+            Program.Panic("[Script] Tried to convert null or empty clock to int.");
         var arr = clock.Split(':');
         if (arr.Length < 2)
-            throw new System.FormatException();
+            Program.Panic($"[Script] Wrong clock syntax.\n{clock}");
         return int.Parse(arr[0]) * 60 + int.Parse(arr[1]);
     }
 
     public static ICommand CreateCommand(string str)
     {
-        if (str == null)
-            throw new System.ArgumentNullException();
+        if (string.IsNullOrEmpty(str))
+            Program.Panic("[Script] Tried to create commands from null string.");
         if (str.Length == 0)
-            throw new System.ArgumentException();
+            Program.Panic("[Script] Tried to create commands from white line.");
         switch (str[0])
         {
             case '#':

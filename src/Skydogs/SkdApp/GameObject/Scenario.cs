@@ -17,7 +17,7 @@ class Scenario
         _managers = managers;
         var data = ResourceX.GetScenario(key);
         if (data == null)
-            throw new System.ArgumentException();
+            Program.Panic($"The scenario '{key}' not exist.");
         var idx = 0;
         while (true)
         {
@@ -54,7 +54,7 @@ class Scenario
     public void Update(GameInformation ginf)
     {
         if (_currentBlock == null)
-            throw new System.Exception("Not checked block called.");
+            Program.Panic("Null scenario updated.");
         _currentBlock.Update(ginf);
         ginf.LogueBox.Draw(_managers.GraphicsManager);
     }

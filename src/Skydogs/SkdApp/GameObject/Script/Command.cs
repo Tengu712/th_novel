@@ -28,11 +28,10 @@ class Logue : ICommand
 
     public Logue(string str)
     {
-        var words = str.Split('/');
-        if (words.Length < 3)
-            throw new System.ArgumentException();
-        _name = words[1];
-        _logue = words[2].Replace("\\n", "\n");
+        var parser = new Parser(str, '/');
+        parser.Skip();
+        _name = parser.GetNext();
+        _logue = parser.GetNext().Replace("\\n", "\n");
     }
 
     bool ICommand.Update(GameInformation ginf)

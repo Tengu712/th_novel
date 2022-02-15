@@ -32,4 +32,10 @@ class Program
     {
         return typeof(Program).Assembly;
     }
+
+    public static void Panic(string message)
+    {
+        MessageBox.Show(message, "Runtime Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        throw new System.Exception(message);
+    }
 }

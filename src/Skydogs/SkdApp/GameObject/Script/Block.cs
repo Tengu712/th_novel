@@ -45,12 +45,12 @@ class Block
             if (data[i][0] == '%')
             {
                 if (_header != null)
-                    throw new System.FormatException();
+                    Program.Panic($"[Script] Block start in block.\n{i}:{data[i]}");
                 _header = new BlockHeader(data[i]);
                 continue;
             }
             if (_header == null)
-                throw new System.FormatException();
+                Program.Panic($"[Script] Command found without block.\n{i}:{data[i]}");
             _commands.AddLast(Parser.CreateCommand(data[i]));
         }
         throw new System.IO.EndOfStreamException();
