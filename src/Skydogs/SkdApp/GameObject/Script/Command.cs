@@ -97,6 +97,41 @@ class Wait : ICommand
     bool ICommand.Update(GameInformation ginf) => _effect.Update(ginf);
 }
 
+class Fadein : ICommand
+{
+    private readonly EffectFadein _effect;
+
+    public Fadein(string str)
+    {
+        _effect = new EffectFadein(int.Parse(str));
+    }
+
+    bool ICommand.Update(GameInformation ginf) => _effect.Update(ginf);
+}
+
+class FadeStart : ICommand
+{
+    private readonly EffectFadeStart _effect;
+
+    public FadeStart(string str)
+    {
+        _effect = new EffectFadeStart(int.Parse(str));
+    }
+
+    bool ICommand.Update(GameInformation ginf) => _effect.Update(ginf);
+}
+
+class DelBox : ICommand
+{
+    public DelBox() { }
+
+    bool ICommand.Update(GameInformation ginf)
+    {
+        ginf.LogueBox.IsActive = false;
+        return true;
+    }
+}
+
 class Goto : ICommand
 {
     private readonly EffectFadeout _effect;
@@ -104,7 +139,7 @@ class Goto : ICommand
 
     public Goto(string str)
     {
-        _effect = new EffectFadeout(60);
+        _effect = new EffectFadeout(30);
         _destination = str;
     }
 

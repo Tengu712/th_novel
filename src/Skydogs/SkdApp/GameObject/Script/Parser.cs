@@ -82,6 +82,12 @@ class Parser
                 return new ChangeCharactor(parser.GetAfter());
             case "#wait":
                 return new Wait(parser.GetAfter());
+            case "#fadein":
+                return new Fadein(parser.GetAfter());
+            case "#fadestart":
+                return new FadeStart(parser.GetAfter());
+            case "#delbox":
+                return new DelBox();
             case "#goto":
                 return new Goto(parser.GetAfter());
             case "#timeset":
