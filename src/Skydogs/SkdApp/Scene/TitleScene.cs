@@ -27,7 +27,7 @@ class TitleScene : IScene
             _managers.SceneManager.ChangeScene(SceneID.GamePlay);
         }
         _managers.GraphicsManager.AddGraphicsObject(
-            new ImageObject { ImageName = "img.title", Width = 1280.0f, Height = 960.0f, IsCenter = false });
+            new ImageObject { ImageName = "img.title", Width = 1280.0f, Height = 720.0f, IsCenter = false });
         _buttonPlay.Draw();
     }
 }

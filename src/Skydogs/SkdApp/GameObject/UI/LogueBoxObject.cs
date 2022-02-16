@@ -20,6 +20,7 @@ class LogueBoxObject : AUIObject
             PosY = 480.0f,
             Width = GeneralInformation.WIDTH,
             Height = 320.0f,
+            Alpha = 0.8f,
             IsCenter = false,
         };
         _speakerName = new StringObject

@@ -14,13 +14,10 @@ class BackGroundObject
     {
         _managers = managers;
         _ginf = ginf;
-        _imageObject = new ImageObject { SqSize = 1280.0f, IsCenter = false };
+        _imageObject = new ImageObject { Width = 1280.0f, Height = 720.0f, IsCenter = false };
     }
 
-    public void SetPlace(string place)
-    {
-        _place = place;
-    }
+    public void SetPlace(string place) => _place = place;
 
     public void Draw()
     {
