@@ -45,18 +45,19 @@ class Logue : ICommand
 
 class ChangeBackGround : ICommand
 {
-    private readonly string _imageName;
+    private readonly string _place;
     private readonly bool _isForce;
 
     public ChangeBackGround(string str)
     {
         var parser = new Parser(str);
-        _imageName = parser.GetNext();
+        _place = parser.GetNext();
         _isForce = parser.GetNext().Equals("!");
     }
 
     bool ICommand.Update(GameInformation ginf)
     {
+        ginf.BackGround.SetPlace(_place);
         return true;
     }
 }

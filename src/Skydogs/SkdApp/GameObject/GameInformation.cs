@@ -18,7 +18,7 @@ class GameInformation
     public GameSceneID Scene { get; set; } = GameSceneID.Neutral;
     public SelectionID Selection { get; set; } = SelectionID.None;
 
-    public int AllTime { get; set; } = 0;
+    public int AllTime { get; set; } = 480;
     public int Time
     {
         get { return AllTime % 1440; }
@@ -37,5 +37,6 @@ class GameInformation
     public GameInformation(IRefManagers managers)
     {
         LogueBox = new LogueBoxObject(managers);
+        BackGround = new BackGroundObject(managers, this);
     }
 }

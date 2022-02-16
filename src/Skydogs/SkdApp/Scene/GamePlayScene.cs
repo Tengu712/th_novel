@@ -25,6 +25,10 @@ class GamePlayScene : IScene
     private void Reload()
     {
         _scenario = new Scenario(_managers, _ginf, $"snr.{_ginf.Day}.{_ginf.Place}");
+        var rq = new LoadImageRequest();
+        rq.Add("img.marisahome.day");
+        rq.Add("img.hakureishrine.day");
+        ImageLoader.LoadTemp(rq);
         System.GC.Collect();
         _ginf.Scene = GameSceneID.Neutral;
     }

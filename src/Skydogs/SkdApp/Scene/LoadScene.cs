@@ -27,6 +27,7 @@ class LoadScene : IScene
             return;
         }
         var rq = new LoadImageRequest();
+        rq.Add("img.loguebox");
         ImageLoader.Load(rq);
         _managers.SceneManager.ChangeScene(SceneID.Title);
     }

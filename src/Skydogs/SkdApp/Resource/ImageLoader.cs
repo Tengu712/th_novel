@@ -13,8 +13,7 @@ class ImageLoader
         {
             if (s_set.Contains(i))
                 continue;
-            if (!ResourceX.LoadImage(i))
-                return false;
+            ResourceX.LoadImage(i);
             s_set.Add(i);
         }
         return true;
@@ -33,8 +32,7 @@ class ImageLoader
         {
             if (s_setTemp.Contains(i) || s_set.Contains(i))
                 continue;
-            if (!ResourceX.LoadImage(i))
-                return false;
+            ResourceX.LoadImage(i);
             s_setTemp.Add(i);
         }
         return true;

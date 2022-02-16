@@ -1,5 +1,5 @@
+hakureishrine
 % 0:00 9:00 !
-#bg img.hakureishrine.normal
 博麗神社。
 相変わらず閑散としている。
 というか、私しかいない。
@@ -18,7 +18,7 @@
 /霊夢/まあ、良いわ、ちょうどお茶が沸いているのよ。
 /魔理沙/お、気が利くな。
 /霊夢/前客に利かせた気なんだけどね。
-#bg img.hakureishrine.room
+#bg hakureiroom
 /魔理沙/こっちは暖かいな。森はもうすっかり冷え込んでんだ。
 /霊夢/あんた最近こっちに来てなかったけど、\n体調は大丈夫なんでしょうね。
 /魔理沙/せいぜい三日くらいだろ？
@@ -46,7 +46,7 @@
 #ch reimu sigh c
 /霊夢/はいはい。
 /霊夢/付き合ってあげるわ。
-#bg img.hakureishirne.normal
+#bg hakureishrine
 #ch reimu normal !
 /霊夢/それじゃ、行くわよ。
 #ch reimu gaze
@@ -97,7 +97,6 @@
 
 @また来た
 % 9:00 12:00 > flg.1.hakureishrine.out 0
-#bg img.hakureishrine.normal
 /霊夢/あら、お早い帰りね。
 /魔理沙/よっ、戻ってきたぜ。
 

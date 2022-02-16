@@ -5,6 +5,7 @@ namespace Skydogs.SkdApp.GameObject.UI;
 
 class LogueBoxObject : AUIObject
 {
+    private readonly ImageObject _logueBox;
     private readonly StringObject _speakerName;
     private readonly StringObject _logue;
 
@@ -13,6 +14,14 @@ class LogueBoxObject : AUIObject
     public LogueBoxObject(IRefManagers managers)
         : base(managers, 0, 0, GeneralInformation.WIDTH, GeneralInformation.HEIGHT)
     {
+        _logueBox = new ImageObject
+        {
+            ImageName = "img.loguebox",
+            PosY = 480.0f,
+            Width = GeneralInformation.WIDTH,
+            Height = 320.0f,
+            IsCenter = false,
+        };
         _speakerName = new StringObject
         {
             PosY = 640.0f,
@@ -39,6 +48,7 @@ class LogueBoxObject : AUIObject
     {
         if (!IsActive)
             return;
+        _managers.GraphicsManager.AddGraphicsObject(_logueBox);
         _managers.GraphicsManager.AddGraphicsObject(_speakerName);
         _managers.GraphicsManager.AddGraphicsObject(_logue);
     }

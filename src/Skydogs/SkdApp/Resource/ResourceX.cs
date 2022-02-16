@@ -10,20 +10,19 @@ namespace Skydogs.SkdApp.Resource;
 
 class ResourceX
 {
-    public static bool LoadImage(string key)
+    public static void LoadImage(string key)
     {
         using (var stream = (Program.GetAssembly()).GetManifestResourceStream("resource.resx"))
         using (var rset = new ResXResourceSet(stream))
         {
             var bmp = (Bitmap)rset.GetObject(key);
             if (bmp == null)
-                return false;
+                Program.Panic($"'{key}' image not found.");
             BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, bmp.PixelFormat);
             if (!DirectX.LoadImageWithKey(key, (int)bmpData.Scan0, (uint)bmpData.Width, (uint)bmpData.Height))
-                return false;
+                Program.Panic($"Failed to load '{key}' image.");
             bmp.UnlockBits(bmpData);
         }
-        return true;
     }
 
     public static string[] GetScenario(string key)
@@ -31,7 +30,10 @@ class ResourceX
         using (var stream = (Program.GetAssembly()).GetManifestResourceStream("resource.resx"))
         using (var rset = new ResXResourceSet(stream))
         {
-            return (string[])rset.GetObject(key);
+            var res = (string[])rset.GetObject(key);
+            if (res == null)
+                Program.Panic($"'{key}' scenario not found.");
+            return res;
         }
     }
 

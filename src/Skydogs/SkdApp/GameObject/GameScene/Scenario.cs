@@ -21,7 +21,8 @@ class Scenario : IGameScene
         var data = ResourceX.GetScenario(key);
         if (data == null)
             Program.Panic($"The scenario '{key}' not exist.");
-        var idx = 0;
+        ginf.BackGround.SetPlace(data[0]);
+        var idx = 1;
         while (true)
         {
             try
@@ -59,6 +60,7 @@ class Scenario : IGameScene
         if (_currentBlock == null)
             Program.Panic("Null scenario updated.");
         _currentBlock.Update(_ginf);
+        _ginf.BackGround.Draw();
         _ginf.LogueBox.Draw();
     }
 }
