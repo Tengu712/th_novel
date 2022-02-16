@@ -99,17 +99,23 @@ class Wait : ICommand
 
 class Goto : ICommand
 {
-    private string _destination;
+    private readonly EffectFadeout _effect;
+    private readonly string _destination;
 
     public Goto(string str)
     {
+        _effect = new EffectFadeout(60);
         _destination = str;
     }
 
     bool ICommand.Update(GameInformation ginf)
     {
-        ginf.Place = _destination;
-        ginf.Scene = GameSceneID.Reload;
+        ginf.LogueBox.IsActive = false;
+        if (_effect.Update(ginf))
+        {
+            ginf.Place = _destination;
+            ginf.Scene = GameSceneID.Reload;
+        }
         return false;
     }
 }

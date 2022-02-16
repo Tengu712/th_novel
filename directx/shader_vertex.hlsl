@@ -1,4 +1,4 @@
-cbuffer mats : register (b0) {
+cbuffer mats : register(b0) {
     float4x4 mat_scl;
     float4x4 mat_rot;
     float4x4 mat_trs;
@@ -31,7 +31,7 @@ VS_OUT vs_main(VS_IN input) {
     output.pos = mul(output.pos, mat_view);
     output.pos = mul(output.pos, mat_proj);
 
-    output.col = input.col;
+    output.col = input.col * vec_color;
     output.tex = input.tex;
     output.prm = params;
 

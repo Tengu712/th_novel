@@ -28,22 +28,26 @@ class GameInformation
         get { return AllTime / 1440; }
     }
     public string Place { get; set; } = "marisahome";
-    public LogueBoxObject LogueBox { get; private set; } = null;
     public BackGroundObject BackGround { get; set; } = null;
     public CharactorObject LeftCharactor { get; set; } = null;
     public CharactorObject CenterCharactor { get; set; } = null;
     public CharactorObject RightCharactor { get; set; } = null;
+    public CGObject CG { get; set; } = null;
+    public LogueBoxObject LogueBox { get; private set; } = null;
 
     public GameInformation(IRefManagers managers)
     {
-        LogueBox = new LogueBoxObject(managers);
         BackGround = new BackGroundObject(managers, this);
+        CG = new CGObject(managers, this);
+        LogueBox = new LogueBoxObject(managers);
     }
 
     public void DrawBaseGraphics()
     {
         if (BackGround != null)
             BackGround.Draw();
+        if (CG != null)
+            CG.Draw();
         if (LogueBox != null)
             LogueBox.Draw();
     }
