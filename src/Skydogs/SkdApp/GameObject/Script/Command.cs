@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Skydogs.SkdApp.GameObject.Effect;
 
 namespace Skydogs.SkdApp.GameObject.Script;
 
@@ -86,19 +87,14 @@ class ChangeCharactor : ICommand
 
 class Wait : ICommand
 {
-    private readonly int _wait;
-    private int _cnt = 0;
+    private readonly EffectWait _effect;
 
     public Wait(string str)
     {
-        _wait = int.Parse(str);
+        _effect = new EffectWait(int.Parse(str));
     }
 
-    bool ICommand.Update(GameInformation ginf)
-    {
-        ++_cnt;
-        return _cnt >= _wait;
-    }
+    bool ICommand.Update(GameInformation ginf) => _effect.Update(ginf);
 }
 
 class Goto : ICommand

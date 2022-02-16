@@ -39,4 +39,12 @@ class GameInformation
         LogueBox = new LogueBoxObject(managers);
         BackGround = new BackGroundObject(managers, this);
     }
+
+    public void DrawBaseGraphics()
+    {
+        if (BackGround != null)
+            BackGround.Draw();
+        if (LogueBox != null)
+            LogueBox.Draw();
+    }
 }

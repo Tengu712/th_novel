@@ -60,7 +60,6 @@ class Scenario : IGameScene
         if (_currentBlock == null)
             Program.Panic("Null scenario updated.");
         _currentBlock.Update(_ginf);
-        _ginf.BackGround.Draw();
-        _ginf.LogueBox.Draw();
+        _ginf.DrawBaseGraphics();
     }
 }
