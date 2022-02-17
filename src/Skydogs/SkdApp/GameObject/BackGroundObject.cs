@@ -10,9 +10,9 @@ class BackGroundObject
     private readonly IRefGraphicsManager _graphicsManager;
     private readonly IRefGameInformation _ginf;
     private readonly ImageObject _imageObject;
-
-    public string _place = "";
     private EffectSwapBackGround _effect = null;
+
+    public string Place { get; private set; } = "";
 
     public BackGroundObject(IRefGraphicsManager graphicsManager, IRefGameInformation ginf)
     {
@@ -21,12 +21,12 @@ class BackGroundObject
         _imageObject = new ImageObject { Width = 1280.0f, Height = 720.0f, IsCenter = false };
     }
 
-    public void SwapStart() => _effect = new EffectSwapBackGround(ResourceX.GetKeyBackGround(_place, _ginf.Time), 30);
-    public void SetPlace(string place) => _place = place;
+    public void SwapStart() => _effect = new EffectSwapBackGround(ResourceX.GetKeyBackGround(Place, _ginf.Time), 30);
+    public void SetPlace(string place) => Place = place;
 
     public void Draw()
     {
-        _imageObject.ImageName = ResourceX.GetKeyBackGround(_place, _ginf.Time);
+        _imageObject.ImageName = ResourceX.GetKeyBackGround(Place, _ginf.Time);
         _graphicsManager.AddGraphicsObject(_imageObject);
         if (_effect == null)
             return;

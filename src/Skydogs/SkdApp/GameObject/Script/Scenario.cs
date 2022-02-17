@@ -10,12 +10,13 @@ class Scenario
     private readonly LinkedList<Block> _blocks = new LinkedList<Block>();
     private Block _currentBlock = null;
 
-    public Scenario(LoadImageRequest rqImage, string key)
+    public Scenario(IRefGameInformation ginf, LoadImageRequest rqImage, string key)
     {
         var data = ResourceX.GetScenario(key);
         if (data == null)
             Program.Panic($"The scenario '{key}' not exist.");
         rqImage.Add(ResourceX.GetKeysBackGround(data[0]));
+        ginf.BackGround.SetPlace(data[0]);
         var idx = 1;
         while (true)
         {

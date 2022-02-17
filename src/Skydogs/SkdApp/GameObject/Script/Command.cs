@@ -70,6 +70,8 @@ class ChangeBackGround : ICommand
 
     public bool Update(IRefGameInformation ginf)
     {
+        if (ginf.BackGround.Place.Equals(_place))
+            return true;
         if (!_isForce)
             ginf.BackGround.SwapStart();
         ginf.BackGround.SetPlace(_place);

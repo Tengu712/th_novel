@@ -19,7 +19,7 @@ class GSceneReload : IGameScene
     void IGameScene.Update()
     {
         var rqImage = new LoadImageRequest();
-        _ginf.Scenario = new Scenario(rqImage, ResourceX.GetKeyScenario(_ginf.SPlace, _ginf.Day));
+        _ginf.Scenario = new Scenario(_ginf, rqImage, ResourceX.GetKeyScenario(_ginf.SPlace, _ginf.Day));
         ImageLoader.LoadTemp(rqImage);
         _ginf.Scene = GameSceneID.Check;
         System.GC.Collect();

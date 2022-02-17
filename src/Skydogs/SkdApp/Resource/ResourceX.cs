@@ -14,11 +14,14 @@ class ResourceX
 
     public static string[] GetKeysBackGround(string place)
     {
+        return new string[] {$"img.{place}.day"};
+        /*
         var res = new string[3];
         res[0] = $"img.{place}.day";
         res[1] = $"img.{place}.evening";
         res[2] = $"img.{place}.night";
         return res;
+        */
     }
 
     public static string GetKeyBackGround(string place, int time)
