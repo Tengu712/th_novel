@@ -10,11 +10,13 @@ class EffectWait : IEffect
         Upto = upto;
     }
 
-    public bool Update(GameInformation ginf)
+    public bool Update()
     {
         if (Count >= Upto)
             return true;
         ++Count;
         return false;
     }
+
+    public bool Update(GameInformation ginf) => Update();
 }

@@ -10,6 +10,16 @@ namespace Skydogs.SkdApp.Resource;
 
 class ResourceX
 {
+    public static string GetKeyBackGround(string place, int time)
+    {
+        if (420 <= time && time < 960)
+            return $"img.{place}.day";
+        else if (960 <= time && time < 1080)
+            return $"img.{place}.evening";
+        else
+            return $"img.{place}.night";
+    }
+
     public static void LoadImage(string key)
     {
         using (var stream = (Program.GetAssembly()).GetManifestResourceStream("resource.resx"))

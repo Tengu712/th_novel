@@ -10,14 +10,14 @@ interface ICommand
     bool Update(GameInformation ginf);
 }
 
-abstract class ACommandNoresource : ICommand
+abstract class ACommandNoResource : ICommand
 {
-    public ACommandNoresource() { }
+    public ACommandNoResource() { }
     public void GetLoadRequest(LoadImageRequest rqImage) { }
     public abstract bool Update(GameInformation ginf);
 }
 
-class MonoLogue : ACommandNoresource
+class MonoLogue : ACommandNoResource
 {
     private readonly string _logue;
 
@@ -33,7 +33,7 @@ class MonoLogue : ACommandNoresource
     }
 }
 
-class Logue : ACommandNoresource
+class Logue : ACommandNoResource
 {
     private readonly string _name;
     private readonly string _logue;
@@ -74,6 +74,8 @@ class ChangeBackGround : ICommand
 
     public bool Update(GameInformation ginf)
     {
+        if (!_isForce)
+            ginf.BackGround.SwapStart();
         ginf.BackGround.SetPlace(_place);
         return true;
     }
@@ -105,7 +107,7 @@ class ChangeCharactor : ICommand
     }
 }
 
-class Wait : ACommandNoresource
+class Wait : ACommandNoResource
 {
     private readonly EffectWait _effect;
 
@@ -117,7 +119,7 @@ class Wait : ACommandNoresource
     public override bool Update(GameInformation ginf) => _effect.Update(ginf);
 }
 
-class Fadein : ACommandNoresource
+class Fadein : ACommandNoResource
 {
     private readonly EffectFadein _effect;
 
@@ -129,7 +131,7 @@ class Fadein : ACommandNoresource
     public override bool Update(GameInformation ginf) => _effect.Update(ginf);
 }
 
-class FadeStart : ACommandNoresource
+class FadeStart : ACommandNoResource
 {
     private readonly EffectFadeStart _effect;
 
@@ -141,7 +143,7 @@ class FadeStart : ACommandNoresource
     public override bool Update(GameInformation ginf) => _effect.Update(ginf);
 }
 
-class DelBox : ACommandNoresource
+class DelBox : ACommandNoResource
 {
     public DelBox() { }
 
@@ -152,7 +154,7 @@ class DelBox : ACommandNoresource
     }
 }
 
-class Goto : ACommandNoresource
+class Goto : ACommandNoResource
 {
     private readonly EffectFadeout _effect;
     private readonly string _destination;
@@ -175,7 +177,7 @@ class Goto : ACommandNoresource
     }
 }
 
-class TimeSet : ACommandNoresource
+class TimeSet : ACommandNoResource
 {
     private readonly int _time;
 
@@ -191,7 +193,7 @@ class TimeSet : ACommandNoresource
     }
 }
 
-class TimeAdd : ACommandNoresource
+class TimeAdd : ACommandNoResource
 {
     private readonly int _time;
 
@@ -210,7 +212,7 @@ class TimeAdd : ACommandNoresource
     }
 }
 
-class FlagAdd : ACommandNoresource
+class FlagAdd : ACommandNoResource
 {
     private readonly string _flagName;
     private readonly int _add;
