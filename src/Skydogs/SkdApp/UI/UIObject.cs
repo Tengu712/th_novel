@@ -1,6 +1,6 @@
 using Skydogs.SkdApp.Manager;
 
-namespace Skydogs.SkdApp.GameObject.UI;
+namespace Skydogs.SkdApp.UI;
 
 abstract class AUIObject
 {

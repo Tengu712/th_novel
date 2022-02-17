@@ -16,7 +16,7 @@ class EffectSwapBackGround : IEffect
     }
 
     public bool Update() => _effect.Update();
-    public bool Update(GameInformation ginf) => _effect.Update();
+    public bool Update(IRefGameInformation ginf) => _effect.Update();
 
     public ImageObject GetImageObject() => new ImageObject
     {

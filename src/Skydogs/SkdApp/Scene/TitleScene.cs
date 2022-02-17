@@ -1,7 +1,7 @@
-using Skydogs.SkdApp.GameObject.UI;
 using Skydogs.SkdApp.GraphicsObject;
 using Skydogs.SkdApp.Manager;
 using Skydogs.SkdApp.Resource;
+using Skydogs.SkdApp.UI;
 
 namespace Skydogs.SkdApp.Scene;
 

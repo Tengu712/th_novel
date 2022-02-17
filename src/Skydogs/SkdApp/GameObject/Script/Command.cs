@@ -1,20 +1,21 @@
 using System.Collections.Generic;
 using Skydogs.SkdApp.GameObject.Effect;
 using Skydogs.SkdApp.Resource;
+using Skydogs.SkdApp.Scene.GameScene;
 
 namespace Skydogs.SkdApp.GameObject.Script;
 
 interface ICommand
 {
     void GetLoadRequest(LoadImageRequest rqImage);
-    bool Update(GameInformation ginf);
+    bool Update(IRefGameInformation ginf);
 }
 
 abstract class ACommandNoResource : ICommand
 {
     public ACommandNoResource() { }
     public void GetLoadRequest(LoadImageRequest rqImage) { }
-    public abstract bool Update(GameInformation ginf);
+    public abstract bool Update(IRefGameInformation ginf);
 }
 
 class MonoLogue : ACommandNoResource
@@ -26,10 +27,10 @@ class MonoLogue : ACommandNoResource
         _logue = str.Replace("\\n", "\n");
     }
 
-    public override bool Update(GameInformation ginf)
+    public override bool Update(IRefGameInformation ginf)
     {
         ginf.LogueBox.Set("", _logue);
-        return ginf.LogueBox.Clicked();
+        return ginf.ClickedLeft;
     }
 }
 
@@ -46,10 +47,10 @@ class Logue : ACommandNoResource
         _logue = parser.GetNext().Replace("\\n", "\n");
     }
 
-    public override bool Update(GameInformation ginf)
+    public override bool Update(IRefGameInformation ginf)
     {
         ginf.LogueBox.Set(_name, _logue);
-        return ginf.LogueBox.Clicked();
+        return ginf.ClickedLeft;
     }
 }
 
@@ -72,7 +73,7 @@ class ChangeBackGround : ICommand
         //rqImage.Add($"img.{_place}.night");
     }
 
-    public bool Update(GameInformation ginf)
+    public bool Update(IRefGameInformation ginf)
     {
         if (!_isForce)
             ginf.BackGround.SwapStart();
@@ -101,7 +102,7 @@ class ChangeCharactor : ICommand
     {
     }
 
-    public bool Update(GameInformation ginf)
+    public bool Update(IRefGameInformation ginf)
     {
         return true;
     }
@@ -116,7 +117,7 @@ class Wait : ACommandNoResource
         _effect = new EffectWait(int.Parse(str));
     }
 
-    public override bool Update(GameInformation ginf) => _effect.Update(ginf);
+    public override bool Update(IRefGameInformation ginf) => _effect.Update(ginf);
 }
 
 class Fadein : ACommandNoResource
@@ -128,7 +129,7 @@ class Fadein : ACommandNoResource
         _effect = new EffectFadein(int.Parse(str));
     }
 
-    public override bool Update(GameInformation ginf) => _effect.Update(ginf);
+    public override bool Update(IRefGameInformation ginf) => _effect.Update(ginf);
 }
 
 class FadeStart : ACommandNoResource
@@ -140,14 +141,14 @@ class FadeStart : ACommandNoResource
         _effect = new EffectFadeStart(int.Parse(str));
     }
 
-    public override bool Update(GameInformation ginf) => _effect.Update(ginf);
+    public override bool Update(IRefGameInformation ginf) => _effect.Update(ginf);
 }
 
 class DelBox : ACommandNoResource
 {
     public DelBox() { }
 
-    public override bool Update(GameInformation ginf)
+    public override bool Update(IRefGameInformation ginf)
     {
         ginf.LogueBox.IsActive = false;
         return true;
@@ -165,12 +166,12 @@ class Goto : ACommandNoResource
         _destination = str;
     }
 
-    public override bool Update(GameInformation ginf)
+    public override bool Update(IRefGameInformation ginf)
     {
         ginf.LogueBox.IsActive = false;
         if (_effect.Update(ginf))
         {
-            ginf.Place = _destination;
+            ginf.SPlace = _destination;
             ginf.Scene = GameSceneID.Reload;
         }
         return false;
@@ -186,7 +187,7 @@ class TimeSet : ACommandNoResource
         _time = Parser.ConvertClockToInt(str);
     }
 
-    public override bool Update(GameInformation ginf)
+    public override bool Update(IRefGameInformation ginf)
     {
         ginf.AllTime = _time;
         return true;
@@ -202,7 +203,7 @@ class TimeAdd : ACommandNoResource
         _time = Parser.ConvertClockToInt(str);
     }
 
-    public override bool Update(GameInformation ginf)
+    public override bool Update(IRefGameInformation ginf)
     {
         int prev = ginf.Day;
         ginf.AllTime += _time;
@@ -224,7 +225,7 @@ class FlagAdd : ACommandNoResource
         _add = int.Parse(parser.GetNext());
     }
 
-    public override bool Update(GameInformation ginf)
+    public override bool Update(IRefGameInformation ginf)
     {
         return true;
     }
@@ -270,7 +271,7 @@ class BulletCommand : ICommand
             i.GetLoadRequest(rqImage);
     }
 
-    public bool Update(GameInformation ginf)
+    public bool Update(IRefGameInformation ginf)
     {
         return true;
     }

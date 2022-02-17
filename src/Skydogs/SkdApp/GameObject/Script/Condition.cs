@@ -12,11 +12,11 @@ class Condition
         _first = new ConditionPart(parser);
     }
 
-    public bool Check(GameInformation ginf) => _first.Check(ginf);
+    public bool Check(IRefGameInformation ginf) => _first.Check(ginf);
 
     private class ConditionPart
     {
-        private readonly Func<GameInformation, bool> _func;
+        private readonly Func<IRefGameInformation, bool> _func;
         private readonly ConditionPart _next = null;
         private readonly bool _and = false;
 
@@ -60,11 +60,11 @@ class Condition
             _next = new ConditionPart(parser);
         }
 
-        private bool Default(GameInformation ginf) => false;
-        private bool Force(GameInformation ginf) => true;
-        private bool Talk(GameInformation ginf) => ginf.Selection == SelectionID.Talk;
+        private bool Default(IRefGameInformation ginf) => false;
+        private bool Force(IRefGameInformation ginf) => true;
+        private bool Talk(IRefGameInformation ginf) => ginf.Selection == SelectionID.Talk;
 
-        public bool Check(GameInformation ginf)
+        public bool Check(IRefGameInformation ginf)
         {
             if (_next == null)
                 return _func(ginf);

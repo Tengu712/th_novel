@@ -9,7 +9,7 @@ class EffectFadeout : IEffect
         _effectWait = new EffectWait(System.Math.Max(upto, 1));
     }
 
-    public bool Update(GameInformation ginf)
+    public bool Update(IRefGameInformation ginf)
     {
         ginf.CG.Image.ImageName = "";
         ginf.CG.Image.Red = 0.0f;

@@ -18,5 +18,5 @@ class EffectWait : IEffect
         return false;
     }
 
-    public bool Update(GameInformation ginf) => Update();
+    public bool Update(IRefGameInformation ginf) => Update();
 }

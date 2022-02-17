@@ -10,7 +10,7 @@ class EffectFadein : IEffect
         _effectWait = new EffectWait(System.Math.Max(upto, 1));
     }
 
-    public bool Update(GameInformation ginf)
+    public bool Update(IRefGameInformation ginf)
     {
         if (_effectWait.Count == 0)
             _start = ginf.CG.Image.Alpha;

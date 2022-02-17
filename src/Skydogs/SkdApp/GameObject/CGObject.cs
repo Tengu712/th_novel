@@ -5,15 +5,13 @@ namespace Skydogs.SkdApp.GameObject;
 
 class CGObject
 {
-    private readonly IRefManagers _managers;
-    private readonly GameInformation _ginf;
+    private readonly IRefGraphicsManager _graphicsManager;
 
     public ImageObject Image { get; private set; }
 
-    public CGObject(IRefManagers managers, GameInformation ginf)
+    public CGObject(IRefGraphicsManager graphicsManager)
     {
-        _managers = managers;
-        _ginf = ginf;
+        _graphicsManager = graphicsManager;
         Image = new ImageObject
         {
             SqSize = 1280.0f,
@@ -25,5 +23,5 @@ class CGObject
         };
     }
 
-    public void Draw() => _managers.GraphicsManager.AddGraphicsObject(Image);
+    public void Draw() => _graphicsManager.AddGraphicsObject(Image);
 }

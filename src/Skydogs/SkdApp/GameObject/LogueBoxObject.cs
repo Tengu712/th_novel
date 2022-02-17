@@ -1,19 +1,20 @@
 using Skydogs.SkdApp.GraphicsObject;
 using Skydogs.SkdApp.Manager;
 
-namespace Skydogs.SkdApp.GameObject.UI;
+namespace Skydogs.SkdApp.GameObject;
 
-class LogueBoxObject : AUIObject
+class LogueBoxObject
 {
+    private readonly IRefGraphicsManager _graphicsManager;
     private readonly ImageObject _logueBox;
     private readonly StringObject _speakerName;
     private readonly StringObject _logue;
 
     public bool IsActive { get; set; } = false;
 
-    public LogueBoxObject(IRefManagers managers)
-        : base(managers, 0, 0, GeneralInformation.WIDTH, GeneralInformation.HEIGHT)
+    public LogueBoxObject(IRefGraphicsManager graphcisManager)
     {
+        _graphicsManager = graphcisManager;
         _logueBox = new ImageObject
         {
             ImageName = "img.loguebox",
@@ -45,12 +46,12 @@ class LogueBoxObject : AUIObject
         IsActive = true;
     }
 
-    public override void Draw()
+    public void Draw()
     {
         if (!IsActive)
             return;
-        _managers.GraphicsManager.AddGraphicsObject(_logueBox);
-        _managers.GraphicsManager.AddGraphicsObject(_speakerName);
-        _managers.GraphicsManager.AddGraphicsObject(_logue);
+        _graphicsManager.AddGraphicsObject(_logueBox);
+        _graphicsManager.AddGraphicsObject(_speakerName);
+        _graphicsManager.AddGraphicsObject(_logue);
     }
 }

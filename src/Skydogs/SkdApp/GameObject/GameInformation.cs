@@ -1,22 +1,50 @@
+using Skydogs.SkdApp.GameObject.Script;
 using Skydogs.SkdApp.Manager;
-using Skydogs.SkdApp.GameObject.UI;
+using Skydogs.SkdApp.Scene.GameScene;
 
 namespace Skydogs.SkdApp.GameObject;
-
-enum GameSceneID
-{
-    Reload, Neutral, Selection, Talking,
-}
 
 enum SelectionID
 {
     None, Talk,
 }
 
-class GameInformation
+interface IRefGameInformation
 {
-    public GameSceneID Scene { get; set; } = GameSceneID.Neutral;
+    GameSceneID Scene { get; set; }
+    SelectionID Selection { get; set; }
+    bool ClickedLeft { get; set; }
+
+    int AllTime { get; set; }
+    public int Time { get; }
+    public int Day { get; }
+    string SPlace { get; set; }
+
+    BackGroundObject BackGround { get; }
+    CharactorObject LeftCharactor { get; }
+    CharactorObject CenterCharactor { get; }
+    CharactorObject RightCharactor { get; }
+    CGObject CG { get; }
+    LogueBoxObject LogueBox { get; }
+}
+
+interface ICtrGameInformation : IRefGameInformation
+{
+    IGameScene GameScene { get; }
+    Scenario Scenario { get; set; }
+    void ChangeGameScene();
+    void DrawBaseGraphics();
+}
+
+class GameInformation : ICtrGameInformation
+{
+    private readonly IRefManagers _managers;
+    public IGameScene GameScene { get; private set; }
+    public Scenario Scenario { get; set; }
+
+    public GameSceneID Scene { get; set; } = GameSceneID.Reload;
     public SelectionID Selection { get; set; } = SelectionID.None;
+    public bool ClickedLeft { get; set; } = false;
 
     public int AllTime { get; set; } = 480;
     public int Time
@@ -27,28 +55,46 @@ class GameInformation
     {
         get { return AllTime / 1440; }
     }
-    public string Place { get; set; } = "marisahome";
-    public BackGroundObject BackGround { get; set; } = null;
-    public CharactorObject LeftCharactor { get; set; } = null;
-    public CharactorObject CenterCharactor { get; set; } = null;
-    public CharactorObject RightCharactor { get; set; } = null;
-    public CGObject CG { get; set; } = null;
-    public LogueBoxObject LogueBox { get; private set; } = null;
+    public string SPlace { get; set; } = "marisahome";
+    public BackGroundObject BackGround { get; private set; }
+    public CharactorObject LeftCharactor { get; private set; }
+    public CharactorObject CenterCharactor { get; private set; }
+    public CharactorObject RightCharactor { get; private set; }
+    public CGObject CG { get; private set; }
+    public LogueBoxObject LogueBox { get; private set; }
 
     public GameInformation(IRefManagers managers)
     {
-        BackGround = new BackGroundObject(managers, this);
-        CG = new CGObject(managers, this);
-        LogueBox = new LogueBoxObject(managers);
+        _managers = managers;
+        GameScene = new GSceneReload(managers, this);
+        BackGround = new BackGroundObject(managers.GraphicsManager, this);
+        CG = new CGObject(managers.GraphicsManager);
+        LogueBox = new LogueBoxObject(managers.GraphicsManager);
     }
 
-    public void DrawBaseGraphics()
+    void ICtrGameInformation.DrawBaseGraphics()
     {
-        if (BackGround != null)
-            BackGround.Draw();
-        if (CG != null)
-            CG.Draw();
-        if (LogueBox != null)
-            LogueBox.Draw();
+        BackGround.Draw();
+        CG.Draw();
+        LogueBox.Draw();
+    }
+
+    void ICtrGameInformation.ChangeGameScene()
+    {
+        switch (Scene)
+        {
+            case GameSceneID.Reload:
+                GameScene = new GSceneReload(_managers, this);
+                break;
+            case GameSceneID.Check:
+                GameScene = new GSceneCheck(_managers, this);
+                break;
+            case GameSceneID.Selection:
+                GameScene = new GSceneSelecting(_managers, this);
+                break;
+            case GameSceneID.Talking:
+                GameScene = new GSceneTalking(_managers, this);
+                break;
+        }
     }
 }

@@ -1,7 +1,7 @@
 using Skydogs.SkdApp.GraphicsObject;
 using Skydogs.SkdApp.Manager;
 
-namespace Skydogs.SkdApp.GameObject.UI;
+namespace Skydogs.SkdApp.UI;
 
 class Button : AUIObject
 {

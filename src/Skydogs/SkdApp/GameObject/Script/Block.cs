@@ -1,30 +1,12 @@
 using System.Collections.Generic;
 using Skydogs.SkdApp.Resource;
+using Skydogs.SkdApp.Scene.GameScene;
 
 namespace Skydogs.SkdApp.GameObject.Script;
 
-class BlockHeader
-{
-    private readonly int _startTime;
-    private readonly int _endTime;
-    private readonly Condition _condition;
-
-    public BlockHeader(string str)
-    {
-        var parser = new Parser(str);
-        parser.Skip();
-        _startTime = Parser.ConvertClockToInt(parser.GetNext());
-        _endTime = Parser.ConvertClockToInt(parser.GetNext());
-        _condition = new Condition(parser.GetNext());
-    }
-
-    public bool Check(GameInformation ginf) =>
-        _startTime <= ginf.Time && ginf.Time < _endTime && _condition.Check(ginf);
-}
-
 class Block
 {
-    private BlockHeader _header = null;
+    private readonly BlockHeader _header = null;
     private readonly LinkedList<ICommand> _commands = new LinkedList<ICommand>();
     private LinkedListNode<ICommand> _currentCommand = null;
 
@@ -46,6 +28,7 @@ class Block
                 if (_header != null)
                     Program.Panic($"[Script] Block start in block.\n{i}:{data[i]}");
                 _header = new BlockHeader(data[i]);
+                _commands.AddLast(new ChangeBackGround($"{data[0]} !"));
                 if (data[i][0] == '%')
                     _commands.AddLast(new FadeStart("30"));
                 continue;
@@ -65,9 +48,9 @@ class Block
 
     public bool IsEnd() => _currentCommand == null;
 
-    public bool Check(GameInformation ginf) => _header.Check(ginf);
+    public bool Check(IRefGameInformation ginf) => _header.Check(ginf);
 
-    public void Update(GameInformation ginf)
+    public void Update(IRefGameInformation ginf)
     {
         if (_currentCommand == null)
             _currentCommand = _commands.First;
@@ -76,6 +59,25 @@ class Block
         if (_currentCommand.Value.Update(ginf))
             _currentCommand = _currentCommand.Next;
         if (_currentCommand == null)
-            ginf.Scene = GameSceneID.Neutral;
+            ginf.Scene = GameSceneID.Check;
+    }
+
+    private class BlockHeader
+    {
+        private readonly int _startTime;
+        private readonly int _endTime;
+        private readonly Condition _condition;
+
+        public BlockHeader(string str)
+        {
+            var parser = new Parser(str);
+            parser.Skip();
+            _startTime = Parser.ConvertClockToInt(parser.GetNext());
+            _endTime = Parser.ConvertClockToInt(parser.GetNext());
+            _condition = new Condition(parser.GetNext());
+        }
+
+        public bool Check(IRefGameInformation ginf) =>
+            _startTime <= ginf.Time && ginf.Time < _endTime && _condition.Check(ginf);
     }
 }

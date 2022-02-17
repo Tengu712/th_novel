@@ -42,4 +42,3 @@ class Managers : ICtrManagers, IRefManagers
         ((ICtrEventManager)_eventManager).Clear();
     }
 }
-

@@ -10,6 +10,8 @@ namespace Skydogs.SkdApp.Resource;
 
 class ResourceX
 {
+    public static string GetKeyScenario(string splace, int day) => $"snr.{day}.{splace}";
+
     public static string GetKeyBackGround(string place, int time)
     {
         if (420 <= time && time < 960)

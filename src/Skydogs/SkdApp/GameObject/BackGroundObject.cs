@@ -7,16 +7,16 @@ namespace Skydogs.SkdApp.GameObject;
 
 class BackGroundObject
 {
-    private readonly IRefManagers _managers;
-    private readonly GameInformation _ginf;
+    private readonly IRefGraphicsManager _graphicsManager;
+    private readonly IRefGameInformation _ginf;
     private readonly ImageObject _imageObject;
 
     public string _place = "";
     private EffectSwapBackGround _effect = null;
 
-    public BackGroundObject(IRefManagers managers, GameInformation ginf)
+    public BackGroundObject(IRefGraphicsManager graphicsManager, IRefGameInformation ginf)
     {
-        _managers = managers;
+        _graphicsManager = graphicsManager;
         _ginf = ginf;
         _imageObject = new ImageObject { Width = 1280.0f, Height = 720.0f, IsCenter = false };
     }
@@ -27,10 +27,10 @@ class BackGroundObject
     public void Draw()
     {
         _imageObject.ImageName = ResourceX.GetKeyBackGround(_place, _ginf.Time);
-        _managers.GraphicsManager.AddGraphicsObject(_imageObject);
+        _graphicsManager.AddGraphicsObject(_imageObject);
         if (_effect == null)
             return;
-        _managers.GraphicsManager.AddGraphicsObject(_effect.GetImageObject());
+        _graphicsManager.AddGraphicsObject(_effect.GetImageObject());
         if (_effect.Update())
             _effect = null;
     }

@@ -1,4 +1,4 @@
-namespace Skydogs.SkdApp.GameObject.GameScene;
+namespace Skydogs.SkdApp.Scene.GameScene;
 
 interface IGameScene
 {

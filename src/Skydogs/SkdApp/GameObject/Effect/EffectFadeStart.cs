@@ -9,7 +9,7 @@ class EffectFadeStart : IEffect
         _sub = 1.0f / (float)System.Math.Max(upto, 1);
     }
 
-    public bool Update(GameInformation ginf)
+    public bool Update(IRefGameInformation ginf)
     {
         ginf.CG.Image.Alpha = System.Math.Max(ginf.CG.Image.Alpha - _sub, 0.0f);
         return ginf.CG.Image.Alpha == 0.0f;
