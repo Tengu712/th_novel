@@ -12,4 +12,10 @@ class LoadImageRequest
     {
         Keys.Add(key);
     }
+
+    public void Add(string[] keys)
+    {
+        foreach (var i in keys)
+            Keys.Add(i);
+    }
 }

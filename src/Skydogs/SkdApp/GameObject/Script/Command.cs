@@ -66,12 +66,7 @@ class ChangeBackGround : ICommand
         _isForce = parser.GetNext().Equals("!");
     }
 
-    public void GetLoadRequest(LoadImageRequest rqImage)
-    {
-        rqImage.Add($"img.{_place}.day");
-        //rqImage.Add($"img.{_place}.evening");
-        //rqImage.Add($"img.{_place}.night");
-    }
+    public void GetLoadRequest(LoadImageRequest rqImage) => rqImage.Add(ResourceX.GetKeysBackGround(_place));
 
     public bool Update(IRefGameInformation ginf)
     {

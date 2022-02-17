@@ -12,6 +12,15 @@ class ResourceX
 {
     public static string GetKeyScenario(string splace, int day) => $"snr.{day}.{splace}";
 
+    public static string[] GetKeysBackGround(string place)
+    {
+        var res = new string[3];
+        res[0] = $"img.{place}.day";
+        res[1] = $"img.{place}.evening";
+        res[2] = $"img.{place}.night";
+        return res;
+    }
+
     public static string GetKeyBackGround(string place, int time)
     {
         if (420 <= time && time < 960)

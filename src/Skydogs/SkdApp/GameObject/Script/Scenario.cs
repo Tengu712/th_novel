@@ -10,29 +10,26 @@ class Scenario
     private readonly LinkedList<Block> _blocks = new LinkedList<Block>();
     private Block _currentBlock = null;
 
-    public Scenario(string key)
+    public Scenario(LoadImageRequest rqImage, string key)
     {
         var data = ResourceX.GetScenario(key);
         if (data == null)
             Program.Panic($"The scenario '{key}' not exist.");
+        rqImage.Add(ResourceX.GetKeysBackGround(data[0]));
         var idx = 1;
         while (true)
         {
             try
             {
-                _blocks.AddLast(new Block(data, ref idx));
+                var block = new Block(data, ref idx);
+                block.GetLoadRequest(rqImage);
+                _blocks.AddLast(block);
             }
             catch (System.IO.EndOfStreamException)
             {
                 break;
             }
         }
-    }
-
-    public void GetLoadRequest(LoadImageRequest rqImage)
-    {
-        foreach (var i in _blocks)
-            i.GetLoadRequest(rqImage);
     }
 
     public void Check(IRefGameInformation ginf)

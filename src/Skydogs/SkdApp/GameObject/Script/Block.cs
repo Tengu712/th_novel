@@ -28,7 +28,6 @@ class Block
                 if (_header != null)
                     Program.Panic($"[Script] Block start in block.\n{i}:{data[i]}");
                 _header = new BlockHeader(data[i]);
-                _commands.AddLast(new ChangeBackGround($"{data[0]} !"));
                 if (data[i][0] == '%')
                     _commands.AddLast(new FadeStart("30"));
                 continue;
