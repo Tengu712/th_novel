@@ -1,14 +1,23 @@
 using System.Collections.Generic;
 using Skydogs.SkdApp.GameObject.Effect;
+using Skydogs.SkdApp.Resource;
 
 namespace Skydogs.SkdApp.GameObject.Script;
 
 interface ICommand
 {
+    void GetLoadRequest(LoadImageRequest rqImage);
     bool Update(GameInformation ginf);
 }
 
-class MonoLogue : ICommand
+abstract class ACommandNoresource : ICommand
+{
+    public ACommandNoresource() { }
+    public void GetLoadRequest(LoadImageRequest rqImage) { }
+    public abstract bool Update(GameInformation ginf);
+}
+
+class MonoLogue : ACommandNoresource
 {
     private readonly string _logue;
 
@@ -17,14 +26,14 @@ class MonoLogue : ICommand
         _logue = str.Replace("\\n", "\n");
     }
 
-    bool ICommand.Update(GameInformation ginf)
+    public override bool Update(GameInformation ginf)
     {
         ginf.LogueBox.Set("", _logue);
         return ginf.LogueBox.Clicked();
     }
 }
 
-class Logue : ICommand
+class Logue : ACommandNoresource
 {
     private readonly string _name;
     private readonly string _logue;
@@ -37,7 +46,7 @@ class Logue : ICommand
         _logue = parser.GetNext().Replace("\\n", "\n");
     }
 
-    bool ICommand.Update(GameInformation ginf)
+    public override bool Update(GameInformation ginf)
     {
         ginf.LogueBox.Set(_name, _logue);
         return ginf.LogueBox.Clicked();
@@ -56,7 +65,14 @@ class ChangeBackGround : ICommand
         _isForce = parser.GetNext().Equals("!");
     }
 
-    bool ICommand.Update(GameInformation ginf)
+    public void GetLoadRequest(LoadImageRequest rqImage)
+    {
+        rqImage.Add($"img.{_place}.day");
+        //rqImage.Add($"img.{_place}.evening");
+        //rqImage.Add($"img.{_place}.night");
+    }
+
+    public bool Update(GameInformation ginf)
     {
         ginf.BackGround.SetPlace(_place);
         return true;
@@ -79,13 +95,17 @@ class ChangeCharactor : ICommand
         _isForce = parser.GetNext().Equals("!");
     }
 
-    bool ICommand.Update(GameInformation ginf)
+    public void GetLoadRequest(LoadImageRequest rqImage)
+    {
+    }
+
+    public bool Update(GameInformation ginf)
     {
         return true;
     }
 }
 
-class Wait : ICommand
+class Wait : ACommandNoresource
 {
     private readonly EffectWait _effect;
 
@@ -94,10 +114,10 @@ class Wait : ICommand
         _effect = new EffectWait(int.Parse(str));
     }
 
-    bool ICommand.Update(GameInformation ginf) => _effect.Update(ginf);
+    public override bool Update(GameInformation ginf) => _effect.Update(ginf);
 }
 
-class Fadein : ICommand
+class Fadein : ACommandNoresource
 {
     private readonly EffectFadein _effect;
 
@@ -106,10 +126,10 @@ class Fadein : ICommand
         _effect = new EffectFadein(int.Parse(str));
     }
 
-    bool ICommand.Update(GameInformation ginf) => _effect.Update(ginf);
+    public override bool Update(GameInformation ginf) => _effect.Update(ginf);
 }
 
-class FadeStart : ICommand
+class FadeStart : ACommandNoresource
 {
     private readonly EffectFadeStart _effect;
 
@@ -118,21 +138,21 @@ class FadeStart : ICommand
         _effect = new EffectFadeStart(int.Parse(str));
     }
 
-    bool ICommand.Update(GameInformation ginf) => _effect.Update(ginf);
+    public override bool Update(GameInformation ginf) => _effect.Update(ginf);
 }
 
-class DelBox : ICommand
+class DelBox : ACommandNoresource
 {
     public DelBox() { }
 
-    bool ICommand.Update(GameInformation ginf)
+    public override bool Update(GameInformation ginf)
     {
         ginf.LogueBox.IsActive = false;
         return true;
     }
 }
 
-class Goto : ICommand
+class Goto : ACommandNoresource
 {
     private readonly EffectFadeout _effect;
     private readonly string _destination;
@@ -143,7 +163,7 @@ class Goto : ICommand
         _destination = str;
     }
 
-    bool ICommand.Update(GameInformation ginf)
+    public override bool Update(GameInformation ginf)
     {
         ginf.LogueBox.IsActive = false;
         if (_effect.Update(ginf))
@@ -155,7 +175,7 @@ class Goto : ICommand
     }
 }
 
-class TimeSet : ICommand
+class TimeSet : ACommandNoresource
 {
     private readonly int _time;
 
@@ -164,14 +184,14 @@ class TimeSet : ICommand
         _time = Parser.ConvertClockToInt(str);
     }
 
-    bool ICommand.Update(GameInformation ginf)
+    public override bool Update(GameInformation ginf)
     {
         ginf.AllTime = _time;
         return true;
     }
 }
 
-class TimeAdd : ICommand
+class TimeAdd : ACommandNoresource
 {
     private readonly int _time;
 
@@ -180,7 +200,7 @@ class TimeAdd : ICommand
         _time = Parser.ConvertClockToInt(str);
     }
 
-    bool ICommand.Update(GameInformation ginf)
+    public override bool Update(GameInformation ginf)
     {
         int prev = ginf.Day;
         ginf.AllTime += _time;
@@ -190,7 +210,7 @@ class TimeAdd : ICommand
     }
 }
 
-class FlagAdd : ICommand
+class FlagAdd : ACommandNoresource
 {
     private readonly string _flagName;
     private readonly int _add;
@@ -202,7 +222,7 @@ class FlagAdd : ICommand
         _add = int.Parse(parser.GetNext());
     }
 
-    bool ICommand.Update(GameInformation ginf)
+    public override bool Update(GameInformation ginf)
     {
         return true;
     }
@@ -240,7 +260,15 @@ class BulletCommand : ICommand
         Program.Panic("[Script] #bul command not closed with #end.");
     }
 
-    bool ICommand.Update(GameInformation ginf)
+    public void GetLoadRequest(LoadImageRequest rqImage)
+    {
+        foreach (var i in _succeededs)
+            i.GetLoadRequest(rqImage);
+        foreach (var i in _faileds)
+            i.GetLoadRequest(rqImage);
+    }
+
+    public bool Update(GameInformation ginf)
     {
         return true;
     }

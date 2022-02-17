@@ -10,6 +10,7 @@ class Scenario : IGameScene
 {
     private readonly IRefManagers _managers;
     private readonly GameInformation _ginf;
+    private readonly string _place;
 
     private readonly LinkedList<Block> _blocks = new LinkedList<Block>();
     private Block _currentBlock = null;
@@ -21,7 +22,8 @@ class Scenario : IGameScene
         var data = ResourceX.GetScenario(key);
         if (data == null)
             Program.Panic($"The scenario '{key}' not exist.");
-        ginf.BackGround.SetPlace(data[0]);
+        _place = data[0];
+        ginf.BackGround.SetPlace(_place);
         var idx = 1;
         while (true)
         {
@@ -34,6 +36,15 @@ class Scenario : IGameScene
                 break;
             }
         }
+    }
+
+    public void GetLoadRequest(LoadImageRequest rqImage)
+    {
+        rqImage.Add($"img.{_place}.day");
+        //rqImage.Add($"img.{_place}.evening");
+        //rqImage.Add($"img.{_place}.night");
+        foreach (var i in _blocks)
+            i.GetLoadRequest(rqImage);
     }
 
     public void Check()

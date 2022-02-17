@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Skydogs.SkdApp.Resource;
 
 namespace Skydogs.SkdApp.GameObject.Script;
 
@@ -54,6 +55,12 @@ class Block
             _commands.AddLast(Parser.CreateCommand(data, ref i));
         }
         throw new System.IO.EndOfStreamException();
+    }
+
+    public void GetLoadRequest(LoadImageRequest rqImage)
+    {
+        foreach (var i in _commands)
+            i.GetLoadRequest(rqImage);
     }
 
     public bool IsEnd() => _currentCommand == null;
