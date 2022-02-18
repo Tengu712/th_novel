@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Skydogs.SkdApp.GameObject.Script;
 using Skydogs.SkdApp.Manager;
 using Skydogs.SkdApp.Scene.GameScene;
@@ -19,6 +20,7 @@ interface IRefGameInformation
     public int Time { get; }
     public int Day { get; }
     string SPlace { get; set; }
+    Dictionary<string, int> Flag { get; }
 
     BackGroundObject BackGround { get; }
     CharactorObject LeftCharactor { get; }
@@ -56,6 +58,8 @@ class GameInformation : ICtrGameInformation
         get { return AllTime / 1440; }
     }
     public string SPlace { get; set; } = "marisahome";
+    public Dictionary<string, int> Flag { get; } = new Dictionary<string, int>();
+
     public BackGroundObject BackGround { get; private set; }
     public CharactorObject LeftCharactor { get; private set; }
     public CharactorObject CenterCharactor { get; private set; }

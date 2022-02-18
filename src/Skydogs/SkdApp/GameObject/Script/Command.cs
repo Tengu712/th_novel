@@ -224,6 +224,9 @@ class FlagAdd : ACommandNoResource
 
     public override bool Update(IRefGameInformation ginf)
     {
+        if (!ginf.Flag.ContainsKey(_flagName))
+            ginf.Flag[_flagName] = 0;
+        ginf.Flag[_flagName] += _add;
         return true;
     }
 }
